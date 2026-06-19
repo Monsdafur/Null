@@ -1,0 +1,39 @@
+extends Node2D
+
+@onready var player_movement = $".."
+@onready var animated_sprite = $"../AnimatedSprite2D"
+var dead: bool
+
+func _ready() -> void:
+	global_variables.game_over.connect(_on_global_variables_game_over)
+	animated_sprite.animation_finished.connect(_on_animation_finished)
+	dead = false
+
+func _process(_delta: float) -> void:
+	animated_sprite.flip_v = player_movement.reverse == -1
+	animated_sprite.offset = Vector2i(0, 0) if player_movement.reverse == 1 else Vector2i(0, 1)
+	
+	if not player_movement.is_on_floor():
+		animated_sprite.play("jump_up" if player_movement.velocity.y < 0.0 else "falling")
+		
+	if player_movement.direction:
+		if player_movement.is_on_floor():
+			animated_sprite.play("running")
+		if player_movement.direction == -1:
+			animated_sprite.flip_h = true
+		else:
+			animated_sprite.flip_h = false
+	else:
+		if player_movement.is_on_floor():
+			animated_sprite.play("idle")
+
+func _on_global_variables_game_over() -> void:
+	set_process(false)
+	animated_sprite.play("death")
+	player_movement.set_physics_process(false)
+	dead = true
+
+func _on_animation_finished() -> void:
+	if not dead:
+		return
+	get_parent().queue_free()
