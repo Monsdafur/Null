@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-global_variables="*res://scripts/global_variables.gd"
+game_manager="*res://scripts/game_manager.gd"
 
 [display]
 

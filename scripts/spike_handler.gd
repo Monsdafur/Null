@@ -32,7 +32,7 @@ func _on_activation_timer_timeout() -> void:
 	animated_sprite.play("activated")
 
 func _on_area_2d_body_entered(_body: Node2D) -> void:
-	global_variables.game_over.emit()
+	game_manager.game_over.emit()
 	
 func _on_idle_timer_timeout() -> void:
 	animated_sprite.play("retract")

@@ -7,7 +7,7 @@ var direction: float
 var reverse: int
 
 func _physics_process(delta: float) -> void:
-	reverse = global_variables.gravity_scale
+	reverse = game_manager.gravity_scale
 	up_direction = Vector2(0, -1) if reverse == 1 else Vector2(0, 1)
 	
 	if not is_on_floor():

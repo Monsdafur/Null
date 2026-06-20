@@ -213,7 +213,7 @@ script = ExtResource("1_wgk0q")
 texture_filter = 1
 texture_repeat = 1
 sprite_frames = SubResource("SpriteFrames_3bbas")
-animation = &"death"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

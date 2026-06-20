@@ -5,7 +5,7 @@ extends Node2D
 var dead: bool
 
 func _ready() -> void:
-	global_variables.game_over.connect(_on_global_variables_game_over)
+	game_manager.game_over.connect(_on_game_manager_game_over)
 	animated_sprite.animation_finished.connect(_on_animation_finished)
 	dead = false
 
@@ -27,7 +27,7 @@ func _process(_delta: float) -> void:
 		if player_movement.is_on_floor():
 			animated_sprite.play("idle")
 
-func _on_global_variables_game_over() -> void:
+func _on_game_manager_game_over() -> void:
 	set_process(false)
 	animated_sprite.play("death")
 	player_movement.set_physics_process(false)

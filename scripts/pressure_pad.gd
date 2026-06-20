@@ -4,9 +4,9 @@ extends Area2D
 @onready var sprite_animation := $AnimatedSprite2D
 
 func _on_body_entered(_body: Node2D) -> void:
-	global_variables.gravity_scale = gravity_scale
+	game_manager.gravity_scale = gravity_scale
 	sprite_animation.play("triggered")
-	print("gravity set to %.1f" % [global_variables.gravity_scale])
+	print("gravity set to %.1f" % [game_manager.gravity_scale])
 
 func _on_body_exited(_body: Node2D) -> void:
 	sprite_animation.play("not_trigger")
