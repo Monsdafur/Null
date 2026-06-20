@@ -36,6 +36,7 @@ animations = [{
 [node name="PressurePad" type="Area2D"]
 collision_mask = 2
 script = ExtResource("1_1wfjm")
+gravity_scale = -1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 7)
