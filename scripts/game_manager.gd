@@ -1,4 +1,4 @@
 extends Node
 
-var gravity_scale := 1
+var gravity_scale: int = 1
 signal game_over

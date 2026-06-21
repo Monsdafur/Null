@@ -35,18 +35,18 @@ func load_pressure_pad(cell: Dictionary) -> void:
 	else:
 		return
 	var pressure_pad: Area2D = ins_pressure_pad.instantiate() if not reverse else ins_reverse_pressure_pad.instantiate()
-	var position: Vector2 = Vector2(float(cell["x"]), float(cell["y"]))
-	position += Vector2(0.0, 1.0) if reverse else Vector2(0.0, -1.0)
-	pressure_pad.position = convert_position(position)
+	var pad_position: Vector2 = Vector2(float(cell["x"]), float(cell["y"]))
+	pad_position += Vector2(0.0, 1.0) if reverse else Vector2(0.0, -1.0)
+	pressure_pad.position = convert_position(pad_position)
 	pressure_pad.z_index = 2
 	add_child(pressure_pad)
 	pressure_pads.append(pressure_pad)
 
 func load_tilemap(tilemap: TileMapLayer, key: String, json_data: Dictionary) -> void:
 	for cell in json_data[key]:
-		var position: Vector2i = Vector2i(cell["x"], cell["y"])
+		var tile_position: Vector2i = Vector2i(cell["x"], cell["y"])
 		var atlas_position: Vector2i = Vector2i(int(cell["gid"]) % atlas_width, int(cell["gid"]) / atlas_width);
-		tilemap.set_cell(position, 0, atlas_position)
+		tilemap.set_cell(tile_position, 0, atlas_position)
 		load_pressure_pad(cell)
 
 func clear_level() -> void:
@@ -73,8 +73,7 @@ func load_level() -> void:
 	var text_data: String = file.get_as_text()
 	file.close()
 	
-	var json: JSON = JSON.new()
-	var json_data: Dictionary = json.parse_string(text_data)
+	var json_data: Dictionary = JSON.parse_string(text_data)
 	
 	# Begin loading to tilemap
 	load_tilemap(level_layer, "level", json_data)
@@ -96,17 +95,17 @@ func load_level() -> void:
 	if json_data.has("spike"):
 		for spk in json_data["spike"]:
 			var spike: Node2D = ins_spike.instantiate() if spk["gid"] == 11 else ins_reverse_spike.instantiate()
-			var position: Vector2 = convert_position(Vector2(float(spk["x"]), float(spk["y"])))
-			spike.position = position
+			var spike_position: Vector2 = convert_position(Vector2(float(spk["x"]), float(spk["y"])))
+			spike.position = spike_position
 			spike.z_index = 1
 			add_child(spike)
 			spikes.append(spike)
 		
 	var entrance: Dictionary = json_data["entrance"]
 	if bool(entrance["reverse"]):
-		game_manager.gravity_scale = -1.0
+		game_manager.gravity_scale = -1
 	else:
-		game_manager.gravity_scale = 1.0
+		game_manager.gravity_scale = 1
 	entrance_position = convert_position(Vector2(float(entrance["x"]), float(entrance["y"])))
 	player.global_position = to_global(entrance_position)
 	
@@ -115,13 +114,14 @@ func load_level() -> void:
 	exit.position = convert_position(Vector2(float(ext["x"]), float(ext["y"])))
 	
 	game_manager.game_over.connect(_on_game_manager_game_over)
+	game_manager.gravity_scale = 1 if not bool(entrance["reverse"]) else -1
 
 func _ready() -> void:
 	player = ins_player.instantiate()
 	get_parent().add_child.call_deferred(player)
 	load_level()
 
-func _on_exit_body_entered(body: Node2D) -> void:
+func _on_exit_body_entered(_body: Node2D) -> void:
 	if (game_manager.gravity_scale < 0.0 and exit_reversed) or (game_manager.gravity_scale > 0.0 and !exit_reversed):
 		level += 1
 		if level > max_level:
