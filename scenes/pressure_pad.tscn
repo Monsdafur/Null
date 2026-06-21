@@ -34,6 +34,8 @@ animations = [{
 }]
 
 [node name="PressurePad" type="Area2D"]
+texture_filter = 1
+texture_repeat = 1
 collision_mask = 2
 script = ExtResource("1_1wfjm")
 gravity_scale = -1

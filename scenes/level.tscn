@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bdts5utildbrv"]
 
-[ext_resource type="Script" path="res://level_loading.gd" id="1_fl2ss"]
+[ext_resource type="Script" path="res://scripts/level_manager.gd" id="1_fl2ss"]
 [ext_resource type="TileSet" uid="uid://r5i81e5cq2kb" path="res://assets/tileset/level.tres" id="2_ew0vb"]
 
 [node name="Level" type="Node2D"]
@@ -16,3 +16,5 @@ z_index = -1
 texture_filter = 1
 texture_repeat = 1
 tile_set = ExtResource("2_ew0vb")
+
+[node name="Entrance" type="Node2D" parent="."]
