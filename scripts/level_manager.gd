@@ -107,36 +107,30 @@ func load_level() -> void:
 	else:
 		game_manager.gravity_scale = 1
 	entrance_position = convert_position(Vector2(float(entrance["x"]), float(entrance["y"])))
+	player = ins_player.instantiate()
 	player.global_position = to_global(entrance_position)
+	get_parent().add_child.call_deferred(player)
+	var player_animation_manager: Node2D = player.get_node("Node2D")
+	player_animation_manager.death.connect(_on_player_death)
 	
 	var ext: Dictionary = json_data["exit"]
 	exit_reversed = bool(ext["reverse"])
 	exit.position = convert_position(Vector2(float(ext["x"]), float(ext["y"])))
 	
-	game_manager.game_over.connect(_on_game_manager_game_over)
 	game_manager.gravity_scale = 1 if not bool(entrance["reverse"]) else -1
 
 func _ready() -> void:
-	player = ins_player.instantiate()
-	get_parent().add_child.call_deferred(player)
 	load_level()
 
 func _on_exit_body_entered(_body: Node2D) -> void:
-	if (game_manager.gravity_scale < 0.0 and exit_reversed) or (game_manager.gravity_scale > 0.0 and !exit_reversed):
+	if (game_manager.gravity_scale < 0.0 and exit_reversed) or (game_manager.gravity_scale > 0.0 and not exit_reversed):
 		level += 1
 		if level > max_level:
 			level = 1
+		player.queue_free()
 		load_level()
-
-func _on_game_manager_game_over() -> void:
-	var player_animation: AnimatedSprite2D = player.get_node("AnimatedSprite2D")
-	var player_animation_handler: Node2D = player.get_node("Node2D")
-	await player_animation.animation_finished
+	
+func _on_player_death() -> void:
 	player_spawn_timer.start()
 	await player_spawn_timer.timeout
-	player.velocity = Vector2(0.0, 0.0)
-	player.set_physics_process(true)
-	player_animation_handler.set_process(true)
-	player.global_position = to_global(entrance_position)
-	player_animation.visible = true
-	player_animation.play("idle")
+	load_level()

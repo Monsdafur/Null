@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var player_movement = $".."
 @onready var animated_sprite = $"../AnimatedSprite2D"
+signal death
 
 func _ready() -> void:
 	game_manager.game_over.connect(_on_game_manager_game_over)
@@ -29,4 +30,5 @@ func _on_game_manager_game_over() -> void:
 	animated_sprite.play("death")
 	player_movement.set_physics_process(false)
 	await animated_sprite.animation_finished
-	animated_sprite.visible = false
+	get_parent().queue_free()
+	death.emit()
