@@ -7,6 +7,7 @@ extends Node2D
 @onready var background_layer: TileMapLayer = $Background
 @onready var exit: Area2D = $Exit
 @onready var player_spawn_timer: Timer = $PlayerSpawnDelay
+@onready var transition_effect: ColorRect = $"../CanvasLayer/ColorRect"
 
 var ins_pressure_pad: Resource =  preload("res://scenes/pressure_pad.tscn")
 var ins_reverse_pressure_pad: Resource =  preload("res://scenes/pressure_pad_reverse.tscn")
@@ -108,8 +109,8 @@ func load_level() -> void:
 		game_manager.gravity_scale = 1
 	entrance_position = convert_position(Vector2(float(entrance["x"]), float(entrance["y"])))
 	player = ins_player.instantiate()
-	player.global_position = to_global(entrance_position)
-	get_parent().add_child.call_deferred(player)
+	player.position = entrance_position
+	add_child(player)
 	var player_animation_manager: AnimationTree = player.get_node("AnimationTree")
 	player_animation_manager.death.connect(_on_player_death)
 	
@@ -127,10 +128,28 @@ func _on_exit_body_entered(_body: Node2D) -> void:
 		level += 1
 		if level > max_level:
 			level = 1
+		var player_animation_tree: AnimationTree = player.get_node("AnimationTree")
+		player.allow_move = false
+		player_animation_tree.set("parameters/conditions/dead", true)
+		
+		await player_animation_tree.animation_finished
 		player.queue_free()
+		await get_tree().process_frame
+		transition_effect.reverse = true;
+		transition_effect.timer.start();
+		await transition_effect.timer.timeout
 		load_level()
+		transition_effect.reverse = false;
+		transition_effect.timer.start();
 	
 func _on_player_death() -> void:
 	player_spawn_timer.start()
 	await player_spawn_timer.timeout
+	player.queue_free()
+	await get_tree().process_frame
+	transition_effect.reverse = true;
+	transition_effect.timer.start();
+	await transition_effect.timer.timeout
 	load_level()
+	transition_effect.reverse = false;
+	transition_effect.timer.start();

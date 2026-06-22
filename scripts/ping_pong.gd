@@ -3,6 +3,7 @@ extends AnimatableBody2D
 @export var p0: Vector2
 @export var p1: Vector2
 @export var speed: float
+
 var dst: Vector2
 var reverse: bool
 

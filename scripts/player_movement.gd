@@ -1,25 +1,24 @@
 extends CharacterBody2D
 
-const SPEED = 96.0
-const JUMP_VELOCITY = -250.0
+@export var speed = 96.0
+@export var jump_velocity = -250.0
+
 var direction: float
-var reverse: int
+var allow_move: bool = false
 
 func _physics_process(delta: float) -> void:
-	reverse = game_manager.gravity_scale
-	up_direction = Vector2(0, -1) if reverse == 1 else Vector2(0, 1)
+	up_direction = Vector2(0, -1) if game_manager.gravity_scale == 1 else Vector2(0, 1)
 	
 	if not is_on_floor():
-		velocity += get_gravity() * reverse * delta
-
-	if Input.is_action_just_pressed("ui_up") and is_on_floor():
-		velocity.y = JUMP_VELOCITY * reverse
-
-	direction = Input.get_axis("ui_left", "ui_right")
+		velocity += get_gravity() * game_manager.gravity_scale * delta
+	elif Input.is_action_just_pressed("ui_up") and allow_move:
+		velocity.y = jump_velocity * game_manager.gravity_scale
 	
-	if direction:
-		velocity.x = direction * SPEED
+	direction = Input.get_axis("ui_left", "ui_right") if allow_move else 0.0
+	
+	if not direction == 0:
+		velocity.x = direction * speed
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, speed)
 
 	move_and_slide()

@@ -1,16 +1,20 @@
 extends AnimationTree
 
-@onready var player_movement = $".."
+@onready var player_movement: CharacterBody2D = $".."
 @onready var sprite: Sprite2D = $"../Sprite2D"
+
 signal death
+
+var dead: bool = false
+var started: bool = false
 
 func _ready() -> void:
 	set("parameters/conditions/dead", false)
 	game_manager.game_over.connect(_on_game_manager_game_over)
 
 func _process(_delta: float) -> void:
-	sprite.flip_v = player_movement.reverse == -1
-	sprite.offset = Vector2i(0, 0) if player_movement.reverse == 1 else Vector2i(0, 1)
+	sprite.flip_v = game_manager.gravity_scale == -1
+	sprite.offset = Vector2i(0, 0) if game_manager.gravity_scale == 1 else Vector2i(0, 1)
 	
 	if not player_movement.is_on_floor():
 		set("parameters/conditions/running", false)
@@ -39,9 +43,16 @@ func _process(_delta: float) -> void:
 			sprite.flip_h = false
 
 func _on_game_manager_game_over() -> void:
+	if dead:
+		return
+	dead = true
+		
 	set_process(false)
 	set("parameters/conditions/dead", true)
 	player_movement.set_physics_process(false)
 	await animation_finished
-	get_parent().queue_free()
 	death.emit()
+
+func _on_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "spawn":
+		player_movement.allow_move = true
