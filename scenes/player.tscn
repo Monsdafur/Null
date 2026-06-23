@@ -246,6 +246,7 @@ _data = {
 z_index = 10
 collision_layer = 2
 script = ExtResource("1_wgk0q")
+jump_velocity = -280.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 0.5)

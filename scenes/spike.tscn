@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://d2b2d4msspn3c"]
+[gd_scene load_steps=20 format=3 uid="uid://d2b2d4msspn3c"]
 
 [ext_resource type="Script" path="res://scripts/spike.gd" id="1_3u1lt"]
 [ext_resource type="Texture2D" uid="uid://cs6gt2whn4nwh" path="res://assets/textures/tilemap.png" id="1_s6u5y"]
@@ -134,17 +134,8 @@ animations = [{
 "speed": 12.0
 }]
 
-[sub_resource type="GDScript" id="GDScript_s571e"]
-script/source = "extends Area2D
-
-
-
-func _on_body_entered(_body: Node2D) -> void:
-	pass # Replace with function body.
-"
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sf0lo"]
-size = Vector2(16, 4)
+size = Vector2(16, 2)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qxru7"]
 size = Vector2(16, 8)
@@ -156,13 +147,12 @@ script = ExtResource("1_3u1lt")
 texture_filter = 1
 texture_repeat = 1
 sprite_frames = SubResource("SpriteFrames_jhxvp")
-animation = &"activated_inverted"
+animation = &"dormant"
 autoplay = "dormant"
 
 [node name="Trigger" type="Area2D" parent="."]
-position = Vector2(0, 6)
+position = Vector2(0, 7)
 collision_mask = 2
-script = SubResource("GDScript_s571e")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Trigger"]
 shape = SubResource("RectangleShape2D_sf0lo")
