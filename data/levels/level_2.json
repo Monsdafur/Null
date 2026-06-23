@@ -1396,7 +1396,7 @@
 			"y": 9
 		},
 		{
-			"gid": 58,
+			"gid": 56,
 			"x": 9,
 			"y": 9
 		},
@@ -2596,7 +2596,7 @@
 			"y": 17
 		},
 		{
-			"gid": 57,
+			"gid": 56,
 			"x": 9,
 			"y": 17
 		},
@@ -5280,7 +5280,7 @@
 			"y": 2
 		}
 	],
-	"spike": [
+	"objects": [
 		{
 			"gid": 19,
 			"x": 19,
@@ -5293,17 +5293,21 @@
 			"y0": 17,
 			"x1": 15,
 			"y1": 2,
-			"speed": 32
+			"speed": 48
 		}
 	],
-	"entrance": {
-		"x": 9,
-		"y": 17,
-		"reverse": false,
-	},
-	"exit": {
-		"x": 9,
-		"y": 9,
-		"reverse": true,
-	}
+	"projector": [
+		{
+			"type": "entrance",
+			"reversed": false,
+			"x": 9,
+			"y": 17,
+		},
+		{
+			"type": "exit",
+			"reversed": true,
+			"x": 9,
+			"y": 9,
+		}
+	]
 }

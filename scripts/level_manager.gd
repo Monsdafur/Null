@@ -1,11 +1,10 @@
 extends Node2D
 
-@export var max_level: int
-@export var level: int
+@export var max_level: int = 1
+@export var level: int = 1
 @export var atlas_width: int
 @onready var level_layer: TileMapLayer = $LevelLayer
 @onready var background_layer: TileMapLayer = $Background
-@onready var exit: Area2D = $Exit
 @onready var player_spawn_timer: Timer = $PlayerSpawnDelay
 @onready var transition_effect: ColorRect = $"../CanvasLayer/ColorRect"
 
@@ -13,13 +12,16 @@ var ins_pressure_pad: Resource =  preload("res://scenes/pressure_pad.tscn")
 var ins_platform: Resource = preload("res://scenes/platform.tscn")
 var ins_spike: Resource = preload("res://scenes/spike.tscn")
 var ins_player: Resource = preload("res://scenes/player.tscn")
+var ins_projector: Resource = preload("res://scenes/projector.tscn")
 
 var exit_reversed: bool = false
-var entrance_position: Vector2
+var entrance: Node2D
+var exit: Node2D
 var player: CharacterBody2D
 
 var platforms: Array[AnimatableBody2D] = []
 var spikes: Array[Node2D] = []
+var projectors: Array[Node2D] = []
 var pressure_pads: Array[Area2D] = []
 
 func convert_position(grid_position: Vector2):
@@ -49,6 +51,35 @@ func load_tilemap(tilemap: TileMapLayer, key: String, json_data: Dictionary) -> 
 		var atlas_position: Vector2i = Vector2i(int(cell["gid"]) % atlas_width, int(cell["gid"]) / atlas_width);
 		tilemap.set_cell(tile_position, 0, atlas_position)
 		load_pressure_pad(cell)
+		
+func load_objects(object_data: Array) -> void:
+	for obj in object_data:
+		var object_position: Vector2 = convert_position(Vector2(float(obj["x"]), float(obj["y"])))
+		var id: int = int(obj["gid"])
+		if id == 11 or id == 19:
+			var spike: Node2D = ins_spike.instantiate()
+			spike.reversed = id == 19
+			spike.position = object_position
+			spike.z_index = 1
+			add_child(spike)
+			spikes.append(spike)
+		
+func load_projectors(projector_data: Array) -> void:
+	for prj in projector_data:
+		var projector_position: Vector2 = convert_position(Vector2(float(prj["x"]), float(prj["y"])))
+		var projector: Node2D = ins_projector.instantiate()
+		match String(prj["type"]):
+			"entrance": 
+				projector.type = Projector.Type.ENTRANCE
+				entrance = projector
+			"exit": 
+				projector.type = Projector.Type.EXIT
+				exit = projector
+		projector.position = projector_position
+		projector.reversed = bool(prj["reversed"])
+		projector.z_index = 1
+		add_child(projector)
+		projectors.append(projector)
 
 func clear_level() -> void:
 	for platform in platforms:
@@ -60,6 +91,9 @@ func clear_level() -> void:
 	for pad in pressure_pads:
 		pad.queue_free()
 	pressure_pads.clear()
+	for projector in projectors:
+		projector.queue_free()
+	projectors.clear()
 	level_layer.clear()
 	background_layer.clear()
 	
@@ -93,56 +127,38 @@ func load_level() -> void:
 			add_child(platform)
 			platforms.append(platform)
 	
-	if json_data.has("spike"):
-		for spk in json_data["spike"]:
-			var spike_reversed: bool = spk["gid"] == 19
-			var spike: Node2D = ins_spike.instantiate()
-			var spike_position: Vector2 = convert_position(Vector2(float(spk["x"]), float(spk["y"])))
-			spike.reversed = spike_reversed
-			spike.position = spike_position
-			spike.z_index = 1
-			add_child(spike)
-			spikes.append(spike)
-		
-	var entrance: Dictionary = json_data["entrance"]
-	if bool(entrance["reverse"]):
-		game_manager.gravity_scale = -1
-	else:
-		game_manager.gravity_scale = 1
-	entrance_position = convert_position(Vector2(float(entrance["x"]), float(entrance["y"])))
+	load_objects(json_data["objects"])
+	load_projectors(json_data["projector"])
+	assert(entrance.type == Projector.Type.ENTRANCE)
+	assert(exit.type == Projector.Type.EXIT)
+	exit.win.connect(_on_player_win)
+	game_manager.gravity_scale = 1 if not entrance.reversed else -1
+	
 	player = ins_player.instantiate()
-	player.position = entrance_position
+	player.position = entrance.position + Vector2(1.0, 5.0)
+	player.get_node("AnimationTree").death.connect(_on_player_death)
 	add_child(player)
-	var player_animation_manager: AnimationTree = player.get_node("AnimationTree")
-	player_animation_manager.death.connect(_on_player_death)
 	
-	var ext: Dictionary = json_data["exit"]
-	exit_reversed = bool(ext["reverse"])
-	exit.position = convert_position(Vector2(float(ext["x"]), float(ext["y"])))
-	
-	game_manager.gravity_scale = 1 if not bool(entrance["reverse"]) else -1
-
 func _ready() -> void:
 	load_level()
 
-func _on_exit_body_entered(_body: Node2D) -> void:
-	if (game_manager.gravity_scale < 0.0 and exit_reversed) or (game_manager.gravity_scale > 0.0 and not exit_reversed):
-		level += 1
-		if level > max_level:
-			level = 1
-		var player_animation_tree: AnimationTree = player.get_node("AnimationTree")
-		player.allow_move = false
-		player_animation_tree.set("parameters/conditions/dead", true)
-		
-		await player_animation_tree.animation_finished
-		player.queue_free()
-		await get_tree().process_frame
-		transition_effect.reverse = true;
-		transition_effect.timer.start();
-		await transition_effect.timer.timeout
-		load_level()
-		transition_effect.reverse = false;
-		transition_effect.timer.start();
+func _on_player_win() -> void:
+	level += 1
+	if level > max_level:
+		level = 1
+	var player_animation_tree: AnimationTree = player.get_node("AnimationTree")
+	player.allow_move = false
+	player_animation_tree.set("parameters/conditions/dead", true)
+	
+	await player_animation_tree.animation_finished
+	player.queue_free()
+	await get_tree().process_frame
+	transition_effect.reverse = true;
+	transition_effect.timer.start();
+	await transition_effect.timer.timeout
+	load_level()
+	transition_effect.reverse = false;
+	transition_effect.timer.start();
 	
 func _on_player_death() -> void:
 	player_spawn_timer.start()
