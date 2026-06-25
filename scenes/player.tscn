@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://07ib3xnjhokk"]
+[gd_scene load_steps=41 format=3 uid="uid://07ib3xnjhokk"]
 
 [ext_resource type="Texture2D" uid="uid://beaks68crmjjp" path="res://assets/textures/player.png" id="1_aaqob"]
 [ext_resource type="Script" path="res://scripts/player_movement.gd" id="1_wgk0q"]
@@ -18,6 +18,9 @@ animation = &"idle"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6ew1n"]
 animation = &"jump_up"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6t057"]
+animation = &"kick"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1sq1x"]
 animation = &"running"
@@ -93,6 +96,14 @@ advance_mode = 2
 switch_mode = 2
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_w7tgx"]
+advance_mode = 2
+advance_condition = &"kick"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_02hdd"]
+switch_mode = 2
+advance_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_wo60m"]
 states/End/position = Vector2(836, -31)
 states/Start/position = Vector2(-66, 99)
@@ -104,12 +115,14 @@ states/idle/node = SubResource("AnimationNodeAnimation_2gtgv")
 states/idle/position = Vector2(322, 99)
 states/jump_up/node = SubResource("AnimationNodeAnimation_6ew1n")
 states/jump_up/position = Vector2(322, -44)
+states/kick/node = SubResource("AnimationNodeAnimation_6t057")
+states/kick/position = Vector2(322, 214)
 states/running/node = SubResource("AnimationNodeAnimation_1sq1x")
 states/running/position = Vector2(502, 99)
 states/spawn/node = SubResource("AnimationNodeAnimation_dhixp")
 states/spawn/position = Vector2(96, 99)
-transitions = ["idle", "running", SubResource("AnimationNodeStateMachineTransition_gx8kv"), "running", "idle", SubResource("AnimationNodeStateMachineTransition_u8mvm"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_0m1vl"), "running", "death", SubResource("AnimationNodeStateMachineTransition_43hwh"), "jump_up", "idle", SubResource("AnimationNodeStateMachineTransition_xqis0"), "idle", "jump_up", SubResource("AnimationNodeStateMachineTransition_p8j4c"), "jump_up", "running", SubResource("AnimationNodeStateMachineTransition_by16j"), "running", "jump_up", SubResource("AnimationNodeStateMachineTransition_0v7wa"), "jump_up", "falling", SubResource("AnimationNodeStateMachineTransition_n4ji3"), "idle", "falling", SubResource("AnimationNodeStateMachineTransition_37r15"), "falling", "idle", SubResource("AnimationNodeStateMachineTransition_g23uu"), "running", "falling", SubResource("AnimationNodeStateMachineTransition_lrw3w"), "falling", "running", SubResource("AnimationNodeStateMachineTransition_7738o"), "jump_up", "death", SubResource("AnimationNodeStateMachineTransition_8vegk"), "falling", "death", SubResource("AnimationNodeStateMachineTransition_uuwxt"), "Start", "spawn", SubResource("AnimationNodeStateMachineTransition_rvtg3"), "spawn", "idle", SubResource("AnimationNodeStateMachineTransition_nk36t")]
-graph_offset = Vector2(-250, -80)
+transitions = ["idle", "running", SubResource("AnimationNodeStateMachineTransition_gx8kv"), "running", "idle", SubResource("AnimationNodeStateMachineTransition_u8mvm"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_0m1vl"), "running", "death", SubResource("AnimationNodeStateMachineTransition_43hwh"), "jump_up", "idle", SubResource("AnimationNodeStateMachineTransition_xqis0"), "idle", "jump_up", SubResource("AnimationNodeStateMachineTransition_p8j4c"), "jump_up", "running", SubResource("AnimationNodeStateMachineTransition_by16j"), "running", "jump_up", SubResource("AnimationNodeStateMachineTransition_0v7wa"), "jump_up", "falling", SubResource("AnimationNodeStateMachineTransition_n4ji3"), "idle", "falling", SubResource("AnimationNodeStateMachineTransition_37r15"), "falling", "idle", SubResource("AnimationNodeStateMachineTransition_g23uu"), "running", "falling", SubResource("AnimationNodeStateMachineTransition_lrw3w"), "falling", "running", SubResource("AnimationNodeStateMachineTransition_7738o"), "jump_up", "death", SubResource("AnimationNodeStateMachineTransition_8vegk"), "falling", "death", SubResource("AnimationNodeStateMachineTransition_uuwxt"), "Start", "spawn", SubResource("AnimationNodeStateMachineTransition_rvtg3"), "spawn", "idle", SubResource("AnimationNodeStateMachineTransition_nk36t"), "idle", "kick", SubResource("AnimationNodeStateMachineTransition_w7tgx"), "kick", "idle", SubResource("AnimationNodeStateMachineTransition_02hdd")]
+graph_offset = Vector2(-246, 29)
 
 [sub_resource type="Animation" id="Animation_asms3"]
 length = 0.001
@@ -230,6 +243,51 @@ tracks/0/keys = {
 "update": 1,
 "values": [Vector2i(0, 4), Vector2i(1, 4), Vector2i(2, 4), Vector2i(3, 4), Vector2i(4, 4), Vector2i(5, 4), Vector2i(6, 4)]
 }
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.75),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [true],
+"method": &"set_allow_move"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_f3hgq"]
+resource_name = "kick"
+length = 0.75
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.5, 0.625),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(0, 5)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.75),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [true],
+"method": &"set_allow_move"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tt03w"]
 _data = {
@@ -238,6 +296,7 @@ _data = {
 "falling": SubResource("Animation_xsm83"),
 "idle": SubResource("Animation_81c2s"),
 "jump_up": SubResource("Animation_d54wn"),
+"kick": SubResource("Animation_f3hgq"),
 "running": SubResource("Animation_jnecf"),
 "spawn": SubResource("Animation_n5ru3")
 }
@@ -259,6 +318,7 @@ parameters/conditions/dead = false
 parameters/conditions/falling = false
 parameters/conditions/idle = false
 parameters/conditions/jump_up = false
+parameters/conditions/kick = false
 parameters/conditions/running = false
 script = ExtResource("3_mxo7y")
 
@@ -272,8 +332,8 @@ texture_filter = 1
 texture_repeat = 1
 texture = ExtResource("1_aaqob")
 hframes = 7
-vframes = 5
+vframes = 6
 frame = 5
 region_rect = Rect2(0, 64, 16, 16)
 
-[connection signal="animation_finished" from="AnimationTree" to="AnimationTree" method="_on_animation_finished"]
+[connection signal="kick" from="." to="AnimationTree" method="_on_player_kick"]
