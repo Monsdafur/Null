@@ -9,7 +9,6 @@ enum Direction {
 }
 
 @export var direction: Direction = Direction.RIGHT
-@onready var sprite_frames: SpriteFrames = preload("res://assets/animation/ray.tres")
 @onready var ray: RayCast2D = $RayCast2D
 @onready var trigger: Area2D = $Trigger
 @onready var segment: AnimatedSprite2D = $Segment
@@ -24,20 +23,20 @@ func _ready() -> void:
 	match direction:
 			Direction.LEFT:
 				direction_vector = Vector2(-1.0, 0.0)
-				segment.play("horizontal_segment")
-				hit.play("left_hit");
+				segment.play("horizontal")
+				hit.play("left");
 			Direction.RIGHT:
 				direction_vector = Vector2(1.0, 0.0)
-				segment.play("horizontal_segment")
-				hit.play("right_hit");
+				segment.play("horizontal")
+				hit.play("right");
 			Direction.UP:
 				direction_vector = Vector2(0.0, -1.0)
-				segment.play("vertical_segment")
-				hit.play("up_hit");
+				segment.play("vertical")
+				hit.play("up");
 			Direction.DOWN:
 				direction_vector = Vector2(0.0, 1.0)
-				segment.play("vertical_segment")
-				hit.play("down_hit");
+				segment.play("vertical")
+				hit.play("down");
 	ray.target_position = ray.position + direction_vector * 30.0 * 16.0
 	ray.position += direction_vector * 8.0
 
