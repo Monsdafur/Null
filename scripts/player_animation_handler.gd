@@ -4,6 +4,7 @@ extends AnimationTree
 @onready var sprite: Sprite2D = $"../Sprite2D"
 
 signal death
+signal win
 
 var dead: bool = false
 var started: bool = false
@@ -11,6 +12,7 @@ var started: bool = false
 func _ready() -> void:
 	set("parameters/conditions/dead", false)
 	global.game_over.connect(_on_global_game_over)
+	global.level_cleared.connect(_on_global_level_cleared)
 
 func _process(_delta: float) -> void:
 	sprite.flip_v = global.gravity_scale == -1
@@ -52,6 +54,17 @@ func _on_global_game_over() -> void:
 	player_movement.set_physics_process(false)
 	await animation_finished
 	death.emit()
+	
+func _on_global_level_cleared() -> void:
+	if dead:
+		return
+	dead = true
+		
+	set_process(false)
+	set("parameters/conditions/dead", true)
+	player_movement.set_physics_process(false)
+	await animation_finished
+	win.emit()
 
 func _on_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "spawn":

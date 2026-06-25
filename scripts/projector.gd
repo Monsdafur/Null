@@ -16,8 +16,6 @@ enum Type {
 @onready var trigger: Area2D = $Trigger
 @onready var sprite: Sprite2D = $Sprite2D
 
-signal win
-
 func _ready() -> void:
 	sprite.region_rect = Rect2i(64, 128, 16, 16) if not reversed else Rect2i(80, 128, 16, 16)
 	collider.position = Vector2(0.0, 5.5) if not reversed else Vector2(0.0, -5.5)
@@ -26,4 +24,4 @@ func _ready() -> void:
 func _on_trigger_body_entered(_body: Node2D) -> void:
 	if (global.gravity_scale < 0.0 and reversed) or (global.gravity_scale > 0.0 and not reversed):
 		if (type == Type.EXIT):
-			win.emit()
+			global.level_cleared.emit()
