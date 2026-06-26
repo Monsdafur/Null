@@ -143,8 +143,9 @@ func load_projector(data: Dictionary) -> void:
 func load_platform(data: Dictionary) -> void:
 	var id: int = data["id"]
 	var speed: float = data["properties"][0]["value"]
-	var x1: int = data["properties"][1]["value"]
-	var y1: int = data["properties"][2]["value"]
+	var type: String = data["properties"][1]["value"]
+	var x1: int = data["properties"][2]["value"]
+	var y1: int = data["properties"][3]["value"]
 	var p0: Vector2 = Vector2(float(data["x"]), float(data["y"])) + Vector2(8.0, -8.0)
 	var p1: Vector2 = Vector2(x1 * 16.0, y1 * 16.0) + Vector2(8.0, 8.0)
 	
@@ -154,6 +155,11 @@ func load_platform(data: Dictionary) -> void:
 	platform.p0 = p0
 	platform.p1 = p1
 	platform.speed = speed
+	match type:
+		"horizontal":
+			platform.type = Platform.Type.HORIZONTAL
+		"vertical":
+			platform.type = Platform.Type.VERTICAL
 	add_child(platform)
 	platforms[id] = platform
 	

@@ -5,8 +5,6 @@ extends CharacterBody2D
 
 @onready var interact_trigger: Area2D = $InteractTrigger
 
-signal kick
-
 var direction: float
 var allow_move: bool = false
 var is_holding: bool = false
@@ -48,9 +46,9 @@ func _on_interact_trigger_body_entered(body: Node2D) -> void:
 	is_holding = true
 	box = body
 
-func _on_interact_trigger_body_exited(body: Node2D) -> void:
+func _on_interact_trigger_body_exited(_body: Node2D) -> void:
 	is_holding = false
 	box.is_holding = false
 
-func _on_crush_trigger_body_entered(body: Node2D) -> void:
+func _on_crush_trigger_body_entered(_body: Node2D) -> void:
 	global.game_over.emit()

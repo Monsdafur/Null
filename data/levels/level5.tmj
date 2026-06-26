@@ -58,6 +58,11 @@
                          "value":48
                         }, 
                         {
+                         "name":"type",
+                         "type":"string",
+                         "value":"horizontal"
+                        }, 
+                        {
                          "name":"x",
                          "type":"int",
                          "value":25

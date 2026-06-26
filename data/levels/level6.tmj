@@ -58,12 +58,17 @@
                          "value":80
                         }, 
                         {
-                         "name":"x1",
+                         "name":"type",
+                         "type":"string",
+                         "value":"horizontal"
+                        }, 
+                        {
+                         "name":"x",
                          "type":"int",
                          "value":20
                         }, 
                         {
-                         "name":"y1",
+                         "name":"y",
                          "type":"int",
                          "value":15
                         }],

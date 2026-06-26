@@ -401,7 +401,6 @@ debug_color = Color(1, 0, 0, 0.419608)
 position = Vector2(-0.5, 0.5)
 shape = SubResource("RectangleShape2D_rcgoc")
 
-[connection signal="kick" from="." to="AnimationTree" method="_on_player_kick"]
 [connection signal="body_entered" from="InteractTrigger" to="." method="_on_interact_trigger_body_entered"]
 [connection signal="body_exited" from="InteractTrigger" to="." method="_on_interact_trigger_body_exited"]
 [connection signal="body_entered" from="CrushTrigger" to="." method="_on_crush_trigger_body_entered"]

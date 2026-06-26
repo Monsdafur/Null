@@ -94,6 +94,11 @@
                          "value":32
                         }, 
                         {
+                         "name":"type",
+                         "type":"string",
+                         "value":"horizontal"
+                        }, 
+                        {
                          "name":"x",
                          "type":"int",
                          "value":24
