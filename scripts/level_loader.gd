@@ -15,6 +15,7 @@ var ins_spike: Resource = preload("res://scenes/spike.tscn")
 var ins_player: Resource = preload("res://scenes/player.tscn")
 var ins_projector: Resource = preload("res://scenes/projector.tscn")
 var ins_emitter: Resource = preload("res://scenes/ray_emitter.tscn")
+var ins_box: Resource = preload("res://scenes/box.tscn")
 
 var map_data: Dictionary
 var map_width: int
@@ -25,6 +26,7 @@ var spikes: Array[Node2D]
 var platforms: Array[AnimatableBody2D]
 var emitters: Array[Node2D]
 var pressure_pads: Array[Area2D]
+var boxes: Array[CharacterBody2D]
 var player: CharacterBody2D
 
 var player_spawn_point: Vector2
@@ -64,6 +66,13 @@ func load_spike(tile_position: Vector2i, reversed: bool) -> void:
 	spike.z_index = 1
 	add_child(spike)
 	spikes.append(spike)
+	
+func load_box(tile_position: Vector2i) -> void:
+	var box: Node2D = ins_box.instantiate()
+	box.position = Vector2i(tile_position) * 16.0 + Vector2(8.0, 8.0)
+	box.z_index = 1
+	add_child(box)
+	boxes.append(box)
 	
 func load_emitter(tile_position: Vector2i, gid: int) -> void:
 	var direction: RayEmitter.Direction
@@ -109,6 +118,8 @@ func load_tilemap_layer(data: Dictionary, order: int) -> void:
 		var tile_position: Vector2i = convert_position(p, map_width)
 		if gid == 56 or gid == 59:
 			load_spike(tile_position, gid == 59)
+		elif gid == 70:
+			load_box(tile_position)
 		elif gid == 43 or gid == 44:
 			load_pressure_pad(tile_position, gid == 44)
 			layer.set_cell(tile_position, 0, atlas_position)
@@ -199,6 +210,9 @@ func clear_level() -> void:
 	for pad: Area2D in pressure_pads:
 		pad.queue_free()
 	pressure_pads.clear()
+	for box: CharacterBody2D in boxes:
+		box.queue_free()
+	boxes.clear()
 	has_entrance = false
 	
 func reload() -> void:

@@ -24,10 +24,16 @@ func _process(_delta: float) -> void:
 		else:
 			state_machine.travel("falling")
 	else:
-		if player_movement.direction == 0:
-			state_machine.travel("idle")
+		if player_movement.is_pushing:
+			if player_movement.direction == 0:
+				state_machine.travel("push_idle")
+			else:
+				state_machine.travel("push")
 		else:
-			state_machine.travel("running")
+			if player_movement.direction == 0:
+				state_machine.travel("idle")
+			else:
+				state_machine.travel("running")
 	
 	if not player_movement.direction == 0:
 		if player_movement.direction == -1:
@@ -56,6 +62,3 @@ func _on_global_level_cleared() -> void:
 	player_movement.set_physics_process(false)
 	await animation_finished
 	win.emit()
-
-func _on_player_kick() -> void:
-	state_machine.travel("kick")
