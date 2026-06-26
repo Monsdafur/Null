@@ -1,19 +1,36 @@
-extends AnimatableBody2D
+extends CharacterBody2D
 
 @export var p0: Vector2
 @export var p1: Vector2
 @export var speed: float
 
-var dst: Vector2
-var reverse: bool
+var direction: Vector2
+var reversed: bool = false
+var length: float
+var active: bool = true
+
+func set_reverse(value: bool) -> void:
+	reversed = value
+	active = true
+	velocity = direction * speed * (1.0 if not reversed else -1.0)
+	print(velocity)
 
 func _ready() -> void:
-	global_position = p0
-	dst = p1
-	reverse = false
+	position = p1
+	direction = (p1 - p0).normalized()
+	length = (p1 - p0).length()
 
-func _physics_process(delta: float) -> void:
-	position = position.move_toward(dst, speed * delta)
-	if position.distance_to(dst) < 0.1:
-		reverse = !reverse
-		dst = p0 if reverse else p1
+func _physics_process(_delta: float) -> void:
+	var beg = p0 if not reversed else p1
+	var distance = beg.distance_to(position)
+	if distance >= length:
+		if reversed:
+			position = p0
+		else:
+			position = p1
+		active = false
+	if not active:
+		velocity = Vector2.ZERO
+		return
+		
+	move_and_slide()

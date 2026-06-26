@@ -58,12 +58,12 @@
                          "value":48
                         }, 
                         {
-                         "name":"x1",
+                         "name":"x",
                          "type":"int",
                          "value":25
                         }, 
                         {
-                         "name":"y1",
+                         "name":"y",
                          "type":"int",
                          "value":21
                         }],

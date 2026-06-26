@@ -23,7 +23,7 @@ var has_entrance: bool = false
 var tilemap_layers: Array[TileMapLayer]
 var projectors: Array[Node2D]
 var spikes: Array[Node2D]
-var platforms: Array[AnimatableBody2D]
+var platforms: Dictionary
 var emitters: Array[Node2D]
 var pressure_pads: Array[Area2D]
 var boxes: Array[CharacterBody2D]
@@ -141,20 +141,21 @@ func load_projector(data: Dictionary) -> void:
 	projectors.append(projector)
 	
 func load_platform(data: Dictionary) -> void:
+	var id: int = data["id"]
 	var speed: float = data["properties"][0]["value"]
-	var x1: int = data["properties"][1]["value"]
-	var y1: int = data["properties"][2]["value"]
-	var p0: Vector2 = Vector2(float(data["x"]), float(data["y"])) + Vector2(8.0, -8.0)
-	var p1: Vector2 = Vector2(x1 * 16.0, y1 * 16.0) + Vector2(8.0, 8.0)
+	var x0: int = data["properties"][1]["value"]
+	var y0: int = data["properties"][2]["value"]
+	var p0: Vector2 = Vector2(x0 * 16.0, y0 * 16.0) + Vector2(8.0, 8.0)
+	var p1: Vector2 = Vector2(float(data["x"]), float(data["y"])) + Vector2(8.0, -8.0)
 	
-	var platform: AnimatableBody2D = ins_platform.instantiate()
+	var platform: CharacterBody2D = ins_platform.instantiate()
 	platform.position = p0
 	platform.z_index = 2
 	platform.p0 = p0
 	platform.p1 = p1
 	platform.speed = speed
 	add_child(platform)
-	platforms.append(platform)
+	platforms[id] = platform
 	
 func load_pressure_pad(data: Dictionary) -> void:
 	var reversed = data["gid"] == 67
@@ -168,7 +169,11 @@ func load_pressure_pad(data: Dictionary) -> void:
 	match pad_type:
 		"gravity pad":
 			var gravity: int = data["properties"][1]["value"]
-			pressure_pad.function = global.set_gravity_scale.bind(gravity)
+			pressure_pad.activation_function = global.set_gravity_scale.bind(gravity)
+		"platform pad":
+			var platform_id: int = data["properties"][1]["value"]
+			pressure_pad.activation_function = platforms[platform_id].set_reverse.bind(true)
+			pressure_pad.deactivation_function = platforms[platform_id].set_reverse.bind(false)
 			
 	add_child(pressure_pad)
 	pressure_pads.append(pressure_pad)
@@ -209,8 +214,8 @@ func clear_level() -> void:
 	for emitter: Node2D in emitters:
 		emitter.queue_free()
 	emitters.clear()
-	for platform: AnimatableBody2D in platforms:
-		platform.queue_free()
+	for key: int in platforms:
+		platforms[key].queue_free()
 	platforms.clear()
 	for pad: Area2D in pressure_pads:
 		pad.queue_free()
