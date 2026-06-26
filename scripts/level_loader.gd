@@ -143,12 +143,12 @@ func load_projector(data: Dictionary) -> void:
 func load_platform(data: Dictionary) -> void:
 	var id: int = data["id"]
 	var speed: float = data["properties"][0]["value"]
-	var x0: int = data["properties"][1]["value"]
-	var y0: int = data["properties"][2]["value"]
-	var p0: Vector2 = Vector2(x0 * 16.0, y0 * 16.0) + Vector2(8.0, 8.0)
-	var p1: Vector2 = Vector2(float(data["x"]), float(data["y"])) + Vector2(8.0, -8.0)
+	var x1: int = data["properties"][1]["value"]
+	var y1: int = data["properties"][2]["value"]
+	var p0: Vector2 = Vector2(float(data["x"]), float(data["y"])) + Vector2(8.0, -8.0)
+	var p1: Vector2 = Vector2(x1 * 16.0, y1 * 16.0) + Vector2(8.0, 8.0)
 	
-	var platform: CharacterBody2D = ins_platform.instantiate()
+	var platform: AnimatableBody2D = ins_platform.instantiate()
 	platform.position = p0
 	platform.z_index = 2
 	platform.p0 = p0
@@ -221,7 +221,8 @@ func clear_level() -> void:
 		pad.queue_free()
 	pressure_pads.clear()
 	for box: CharacterBody2D in boxes:
-		box.queue_free()
+		if not box == null:
+			box.queue_free()
 	boxes.clear()
 	has_entrance = false
 	
