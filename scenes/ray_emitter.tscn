@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://vxd18ckvhj6y"]
+[gd_scene load_steps=18 format=3 uid="uid://vxd18ckvhj6y"]
 
 [ext_resource type="Script" path="res://scripts/ray_emitter.gd" id="1_keesk"]
 [ext_resource type="Texture2D" uid="uid://do0pqqgxcf665" path="res://assets/textures/tilemap.png" id="2_cv6kg"]
+[ext_resource type="AudioStream" uid="uid://6m176ocg170e" path="res://assets/audio/laser.wav" id="3_as3dp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y3j1t"]
 atlas = ExtResource("2_cv6kg")
@@ -141,5 +142,9 @@ animation = &"vertical"
 [node name="Hit" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_2ubrw")
 animation = &"up"
+
+[node name="RaySound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_as3dp")
+autoplay = true
 
 [connection signal="body_entered" from="Trigger" to="." method="_on_trigger_body_entered"]
