@@ -1,8 +1,8 @@
 extends Area2D
 
 @export var reversed: bool
-@export var activation_function: Callable
-@export var deactivation_function: Callable
+@export var activation_functions: Array[Callable]
+@export var deactivation_functions: Array[Callable]
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var shape: CollisionShape2D = $CollisionShape2D
@@ -14,15 +14,19 @@ func _ready() -> void:
 	shape.position = Vector2(0.0, 7.0) if not reversed else Vector2(0.0, -7.0)
 
 func _on_body_entered(_body: Node2D) -> void:
-	sprite.visible = false
-	if activation_function.is_valid():
-		activation_function.call()
 	bodies += 1
+	if bodies > 1:
+		return
+	sprite.visible = false
+	for function: Callable in activation_functions:
+		if function.is_valid():
+			function.call()
 
 func _on_body_exited(_body: Node2D) -> void:
 	bodies -= 1
 	if bodies > 0:
 		return
 	sprite.visible = true
-	if deactivation_function.is_valid():
-		deactivation_function.call()
+	for function: Callable in deactivation_functions:
+		if function.is_valid():
+			function.call()

@@ -16,7 +16,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	sprite.flip_v = global.gravity_scale == -1
-	sprite.offset = Vector2i(0, 0) if global.gravity_scale == 1 else Vector2i(0, 1)
+	sprite.offset = Vector2i(0, 0) if global.gravity_scale == 1 else Vector2i(0, 2)
 	
 	if not player_movement.is_on_floor():
 		if player_movement.velocity.y * global.gravity_scale < 0.0:

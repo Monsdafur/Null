@@ -7,7 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://bvrpv5foppt4s" path="res://assets/audio/walk.wav" id="5_x6qf3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8bfk5"]
-size = Vector2(9, 15)
+size = Vector2(9, 14)
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4t6nj"]
 animation = &"death"
@@ -375,7 +375,7 @@ _data = {
 size = Vector2(2, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rcgoc"]
-size = Vector2(7, 13)
+size = Vector2(7, 12)
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 10
@@ -384,7 +384,7 @@ script = ExtResource("1_wgk0q")
 jump_velocity = -280.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 0.5)
+position = Vector2(-0.5, 1)
 shape = SubResource("RectangleShape2D_8bfk5")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
@@ -426,7 +426,7 @@ debug_color = Color(1, 0, 0, 0.419608)
 [node name="CrushTrigger" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CrushTrigger"]
-position = Vector2(-0.5, 0.5)
+position = Vector2(-0.5, 1)
 shape = SubResource("RectangleShape2D_rcgoc")
 
 [node name="JumpSound" type="AudioStreamPlayer" parent="."]

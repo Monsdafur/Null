@@ -22,7 +22,7 @@ var map_width: int
 var has_entrance: bool = false
 var tilemap_layers: Array[TileMapLayer]
 var projectors: Array[Node2D]
-var spikes: Array[Node2D]
+var spikes: Dictionary
 var platforms: Dictionary
 var emitters: Array[Node2D]
 var pressure_pads: Array[Area2D]
@@ -58,14 +58,6 @@ func load_level() -> void:
 			order += 1
 		elif layer["type"] == "objectgroup":
 			load_objects(layer)
-			
-func load_spike(tile_position: Vector2i, reversed: bool) -> void:
-	var spike: Node2D = ins_spike.instantiate()
-	spike.reversed = reversed
-	spike.position = Vector2i(tile_position) * 16.0 + Vector2(8.0, 8.0)
-	spike.z_index = 1
-	add_child(spike)
-	spikes.append(spike)
 	
 func load_box(tile_position: Vector2i) -> void:
 	var box: Node2D = ins_box.instantiate()
@@ -105,9 +97,7 @@ func load_tilemap_layer(data: Dictionary, order: int) -> void:
 		gid -= 1
 		var atlas_position: Vector2i = convert_position(gid, atlas_width)
 		var tile_position: Vector2i = convert_position(p, map_width)
-		if gid == 56 or gid == 59:
-			load_spike(tile_position, gid == 59)
-		elif gid == 70:
+		if gid == 70:
 			load_box(tile_position)
 		elif gid == 48 or gid == 49 or gid == 50 or gid == 51:
 			load_emitter(tile_position, gid)
@@ -163,6 +153,19 @@ func load_platform(data: Dictionary) -> void:
 	add_child(platform)
 	platforms[id] = platform
 	
+func load_spike(data: Dictionary) -> void:
+	var id: int = data["id"]
+	print("Spike id: %d" % id)
+	var reversed = data["gid"] == 60
+	var p0: Vector2 = Vector2(float(data["x"]), float(data["y"])) + Vector2(8.0, -8.0)
+	
+	var spike: Node2D = ins_spike.instantiate()
+	spike.reversed = reversed
+	spike.position = p0
+	spike.z_index = 1
+	add_child(spike)
+	spikes[id] = spike
+	
 func load_pressure_pad(data: Dictionary) -> void:
 	var reversed = data["gid"] == 67
 	var pad_type: String = data["properties"][0]["value"]
@@ -175,25 +178,47 @@ func load_pressure_pad(data: Dictionary) -> void:
 	match pad_type:
 		"gravity pad":
 			var gravity: int = data["properties"][1]["value"]
-			pressure_pad.activation_function = global.set_gravity_scale.bind(gravity)
+			pressure_pad.activation_functions.append(global.set_gravity_scale.bind(gravity))
 		"platform pad":
 			var platform_id: int = data["properties"][1]["value"]
-			pressure_pad.activation_function = platforms[platform_id].set_reverse.bind(true)
-			pressure_pad.deactivation_function = platforms[platform_id].set_reverse.bind(false)
+			pressure_pad.activation_functions.append(platforms[platform_id].set_reverse.bind(true))
+			pressure_pad.deactivation_functions.append(platforms[platform_id].set_reverse.bind(false))
+		"spike pad":
+			pass
+			var count: int = data["properties"][1]["value"]
+			for i: int in range(count):
+				var spike_id: int = int(data["properties"][i + 2]["value"])
+				pressure_pad.activation_functions.append(spikes[spike_id].deactivate)
+				pressure_pad.deactivation_functions.append(spikes[spike_id].activate)
 			
 	add_child(pressure_pad)
 	pressure_pads.append(pressure_pad)
 	
 func load_objects(data: Dictionary) -> void:
 	var objects_data: Array = data["objects"]
+	var projectors_data: Array[Dictionary]
+	var platforms_data: Array[Dictionary]
+	var spikes_data: Array[Dictionary]
+	var pressure_pads_data: Array[Dictionary]
 	for object: Dictionary in objects_data:
 		match object["name"]:
 			"projector":
-				load_projector(object)
+				projectors_data.append(object)
 			"platform":
-				load_platform(object)
+				platforms_data.append(object)
+			"spike":
+				spikes_data.append(object)
 			"pressure pad":
-				load_pressure_pad(object)
+				pressure_pads_data.append(object)
+				
+	for object: Dictionary in projectors_data:
+		load_projector(object)
+	for object: Dictionary in platforms_data:
+		load_platform(object)
+	for object: Dictionary in spikes_data:
+		load_spike(object)
+	for object: Dictionary in pressure_pads_data:
+		load_pressure_pad(object)
 
 func spawn_player() -> void:
 	if not has_entrance:
@@ -214,8 +239,8 @@ func clear_level() -> void:
 	for projector: Node2D in projectors:
 		projector.queue_free()
 	projectors.clear()
-	for spike: Node2D in spikes:
-		spike.queue_free()
+	for key: int in spikes:
+		spikes[key].queue_free()
 	spikes.clear()
 	for emitter: Node2D in emitters:
 		emitter.queue_free()
@@ -252,6 +277,10 @@ func _ready() -> void:
 	load_map_data()
 	load_level()
 	spawn_player()
+
+func _process(_delta: float) -> void:
+	if Input.is_action_just_pressed("reload"):
+		reload()
 	
 func _on_player_death() ->void:
 	reload()

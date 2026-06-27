@@ -28,7 +28,7 @@ func _physics_process(delta: float) -> void:
 	else:	
 		velocity.x = move_toward(velocity.x, 0, speed)
 
-	if is_on_floor() and is_holding and Input.is_action_pressed("kick"):
+	if is_on_floor() and is_holding and Input.is_action_pressed("interact"):
 			is_pushing = true
 			box.velocity.x = direction * speed * 0.2
 			box.is_holding = true
