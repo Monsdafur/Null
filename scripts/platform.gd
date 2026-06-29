@@ -15,10 +15,14 @@ enum Type {
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var bounce_sound: AudioStreamPlayer = $BounceSound
 
 var reversed: bool = false
+var active: bool = false
 
 func set_reverse(value: bool) -> void:
+	if not (reversed == value):
+		active = true
 	reversed = value
 
 func _ready() -> void:
@@ -36,3 +40,6 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var dst = p0 if not reversed else p1
 	position = position.move_toward(dst, speed * delta)
+	if active and position.distance_squared_to(dst) < 0.025:
+		bounce_sound.play()
+		active = false

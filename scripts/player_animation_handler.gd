@@ -42,6 +42,7 @@ func _process(_delta: float) -> void:
 			sprite.flip_h = true
 		else:
 			sprite.flip_h = false
+	sprite.offset = Vector2(-1.0, 0.0) if sprite.flip_h else Vector2.ZERO
 
 func _on_global_game_over() -> void:
 	if dead:

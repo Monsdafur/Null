@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/spike.gd" id="1_3u1lt"]
 [ext_resource type="Texture2D" uid="uid://do0pqqgxcf665" path="res://assets/textures/tilemap.png" id="2_0ns8m"]
-[ext_resource type="AudioStream" uid="uid://bq6n4nbtkqnqw" path="res://assets/audio/spike.wav" id="3_jnjcs"]
+[ext_resource type="AudioStream" uid="uid://bq6n4nbtkqnqw" path="res://assets/audio/activation.wav" id="3_jnjcs"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a0snc"]
 atlas = ExtResource("2_0ns8m")

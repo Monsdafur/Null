@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bfnwxcb2cli5w"]
+[gd_scene load_steps=9 format=3 uid="uid://bfnwxcb2cli5w"]
 
 [ext_resource type="Script" path="res://scripts/menu_manager.gd" id="1_hk3h1"]
 [ext_resource type="FontFile" uid="uid://b3s13b2b4efka" path="res://assets/fonts/Tiny5-Regular.ttf" id="2_i4fb2"]
@@ -6,13 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://gg37lhl5qcus" path="res://assets/textures/atlas/pressed_button.tres" id="3_wmvte"]
 [ext_resource type="Texture2D" uid="uid://bweajowduyfex" path="res://assets/textures/atlas/focused_button.tres" id="4_qyy45"]
 [ext_resource type="Texture2D" uid="uid://c1q1j0hiswf5g" path="res://assets/textures/main_menu.png" id="6_b7eoh"]
-[ext_resource type="PackedScene" uid="uid://bprr34e7blv" path="res://scenes/glitch_filter.tscn" id="8_3i5ni"]
 [ext_resource type="PackedScene" uid="uid://datl2eavfw6cg" path="res://scenes/transition_filter.tscn" id="8_66avq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2kdxh"]
 font = ExtResource("2_i4fb2")
 font_size = 8
-font_color = Color(0.196078, 0.392157, 0.196078, 1)
+font_color = Color(0.74902, 0.372549, 0.309804, 1)
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_hk3h1")
@@ -29,8 +28,9 @@ mouse_filter = 2
 texture_filter = 1
 texture_repeat = 1
 layout_mode = 0
-offset_left = -96.0
+offset_left = -48.0
 offset_top = -32.0
+offset_bottom = -16.0
 scale = Vector2(2, 2)
 mouse_filter = 2
 texture_normal = ExtResource("2_xfsfs")
@@ -38,9 +38,12 @@ texture_pressed = ExtResource("3_wmvte")
 texture_focused = ExtResource("4_qyy45")
 
 [node name="Label" type="Label" parent="MenuManager/StartButton"]
-layout_mode = 0
-offset_right = 96.0
-offset_bottom = 32.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "START"
 label_settings = SubResource("LabelSettings_2kdxh")
 horizontal_alignment = 1
@@ -50,9 +53,9 @@ vertical_alignment = 1
 texture_filter = 1
 texture_repeat = 1
 layout_mode = 0
-offset_left = -96.0
-offset_top = 36.0
-offset_bottom = 68.0
+offset_left = -48.0
+offset_top = 24.0
+offset_bottom = 40.0
 scale = Vector2(2, 2)
 mouse_filter = 2
 texture_normal = ExtResource("2_xfsfs")
@@ -60,9 +63,12 @@ texture_pressed = ExtResource("3_wmvte")
 texture_focused = ExtResource("4_qyy45")
 
 [node name="Label" type="Label" parent="MenuManager/QuitButton"]
-layout_mode = 0
-offset_right = 96.0
-offset_bottom = 32.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "QUIT"
 label_settings = SubResource("LabelSettings_2kdxh")
 horizontal_alignment = 1
@@ -70,8 +76,7 @@ vertical_alignment = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = 10
+[node name="Title" type="Sprite2D" parent="."]
 texture_filter = 1
 texture_repeat = 1
 scale = Vector2(2, 2)
@@ -82,8 +87,6 @@ layer = 2
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
-
-[node name="GlitchFilter" parent="." instance=ExtResource("8_3i5ni")]
 
 [connection signal="button_up" from="MenuManager/StartButton" to="." method="_on_start_button_button_up"]
 [connection signal="button_up" from="MenuManager/QuitButton" to="." method="_on_quit_button_button_up"]

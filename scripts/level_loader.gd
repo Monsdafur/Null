@@ -132,15 +132,17 @@ func load_pipe(data: Dictionary) -> void:
 	
 func load_platform(data: Dictionary) -> void:
 	var id: int = data["id"]
-	var speed: float = data["properties"][0]["value"]
-	var type: String = data["properties"][1]["value"]
-	var x1: int = data["properties"][2]["value"]
-	var y1: int = data["properties"][3]["value"]
+	var reversed: bool = data["properties"][0]["value"]
+	var speed: float = data["properties"][1]["value"]
+	var type: String = data["properties"][2]["value"]
+	var x1: int = data["properties"][3]["value"]
+	var y1: int = data["properties"][4]["value"]
 	var p0: Vector2 = Vector2(float(data["x"]), float(data["y"])) + Vector2(8.0, -8.0)
 	var p1: Vector2 = Vector2(x1 * 16.0, y1 * 16.0) + Vector2(8.0, 8.0)
 	
 	var platform: AnimatableBody2D = ins_platform.instantiate()
-	platform.position = p0
+	platform.reversed = reversed
+	platform.position = p0 if not reversed else p1
 	platform.z_index = 2
 	platform.p0 = p0
 	platform.p1 = p1

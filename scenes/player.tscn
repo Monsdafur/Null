@@ -396,7 +396,7 @@ size = Vector2(7, 12)
 z_index = 1
 collision_layer = 2
 script = ExtResource("1_wgk0q")
-speed = 112.0
+speed = 128.0
 jump_velocity = -280.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

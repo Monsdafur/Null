@@ -4,4 +4,4 @@
 
 [resource]
 atlas = ExtResource("1_bfonk")
-region = Rect2(0, 64, 96, 32)
+region = Rect2(0, 0, 48, 16)
