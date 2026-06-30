@@ -169,10 +169,8 @@ script = ExtResource("1_3u1lt")
 texture_filter = 1
 texture_repeat = 1
 sprite_frames = SubResource("SpriteFrames_jhxvp")
-animation = &"activated"
+animation = &"idle"
 autoplay = "dormant"
-frame = 2
-frame_progress = 1.0
 
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2(0, 5)

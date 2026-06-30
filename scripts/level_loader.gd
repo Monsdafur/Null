@@ -37,7 +37,7 @@ var player_spawn_point: Vector2
 
 func convert_position(grid_position: int, width: int) -> Vector2:
 	var x: int = grid_position % width
-	var y: int = grid_position / width
+	var y: int = int(floor(float(grid_position) / float(width)))
 	return Vector2i(x, y)
 	
 func load_map_data() -> void:
@@ -140,11 +140,10 @@ func load_platform(data: Dictionary, order: int) -> void:
 	var id: int = data["id"]
 	var reversed: bool = data["properties"][0]["value"]
 	var speed: float = data["properties"][1]["value"]
-	var type: String = data["properties"][2]["value"]
-	var x1: int = data["properties"][3]["value"]
-	var y1: int = data["properties"][4]["value"]
+	var x1: int = data["properties"][2]["value"]
+	var y1: int = data["properties"][3]["value"]
 	var p0: Vector2 = Vector2(float(data["x"]), float(data["y"])) + Vector2(8.0, -8.0)
-	var p1: Vector2 = Vector2(x1 * 16.0, y1 * 16.0) + Vector2(8.0, 8.0)
+	var p1: Vector2 = p0 + Vector2(x1 * 16.0, y1 * 16.0)
 	
 	var platform: AnimatableBody2D = ins_platform.instantiate()
 	platform.reversed = reversed
@@ -153,10 +152,10 @@ func load_platform(data: Dictionary, order: int) -> void:
 	platform.p0 = p0
 	platform.p1 = p1
 	platform.speed = speed
-	match type:
-		"horizontal":
+	match int(data["gid"]):
+		42:
 			platform.type = Platform.Type.HORIZONTAL
-		"vertical":
+		56:
 			platform.type = Platform.Type.VERTICAL
 	add_child(platform)
 	platforms[id] = platform
@@ -210,7 +209,7 @@ func load_instruction(data: Dictionary) -> void:
 	var y: int = int(data["properties"][2]["value"])
 	var instruction_position: Vector2 = Vector2(float(data["x"]), float(data["y"])) + Vector2(8.0, -8.0)
 	var target: Vector2 = Vector2(x * 16.0, y * 16.0) + Vector2(8.0, 8.0)
-	var atlas_position: Vector2i = Vector2i(gid % atlas_width, gid / atlas_width) * 16
+	var atlas_position: Vector2i = Vector2i(gid % atlas_width, int(floor(float(gid) / float(atlas_width)))) * 16
 	
 	var instruction: Node2D = ins_instruction.instantiate()
 	instruction.position = instruction_position
