@@ -2,24 +2,33 @@ extends CharacterBody2D
 
 @onready var death_timer: Timer = $DeathTimer
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var sprite: Sprite2D = $Sprite
+@onready var highlight: Sprite2D = $Highlight
+@onready var hit_sound: AudioStreamPlayer = $HitSound
 
 var box_fragments = preload("res://assets/textures/box_fragments.png")
 var ins_fragment = preload("res://scenes/fragment.tscn")
 
 var is_holding: bool = false
 var dead: bool = false
+var on_floor_last_frame: bool = true
+var frame_count: int = 0
 
 func _physics_process(delta: float) -> void:
 	up_direction = Vector2(0, -1) if global.gravity_scale == 1 else Vector2(0, 1)
 	
 	if not is_on_floor():
 		velocity += get_gravity() * global.gravity_scale * delta
+	elif (not on_floor_last_frame) and frame_count > 2:
+		hit_sound.play()
 		
 	if not is_holding or not is_on_floor():
 		velocity.x = 0.0
 	
+	on_floor_last_frame = is_on_floor()
 	move_and_slide()
+	if frame_count <= 2:
+		frame_count += 1
 
 func _on_death_trigger_body_entered(body: Node2D) -> void:
 	if body != get_node(".") and !dead:

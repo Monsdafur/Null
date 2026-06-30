@@ -35,9 +35,9 @@ var reloading: bool =  false
 
 var player_spawn_point: Vector2
 
-func convert_position(grid_position: int, map_width: int) -> Vector2:
-	var x: int = grid_position % map_width
-	var y: int = grid_position / map_width
+func convert_position(grid_position: int, width: int) -> Vector2:
+	var x: int = grid_position % width
+	var y: int = grid_position / width
 	return Vector2i(x, y)
 	
 func load_map_data() -> void:
@@ -89,11 +89,10 @@ func load_emitter(tile_position: Vector2i, gid: int) -> void:
 			
 func load_tilemap_layer(data: Dictionary, order: int) -> void:
 	var tilemap_data = data["data"]
-	var name = data["name"]
+	var layer_name = data["name"]
 	var layer: TileMapLayer = TileMapLayer.new()
 	layer.tile_set = tileset
 	layer.z_index = order
-	print(order)
 	
 	var p: int = -1
 	for gid: int in tilemap_data:
@@ -112,7 +111,7 @@ func load_tilemap_layer(data: Dictionary, order: int) -> void:
 			layer.set_cell(tile_position, 0, atlas_position)
 	
 	add_child(layer)
-	tilemap_layers[name] = layer
+	tilemap_layers[layer_name] = layer
 	
 func load_pipe(data: Dictionary, order: int) -> void:
 	var reversed = data["gid"] == 70
@@ -335,6 +334,8 @@ func _process(delta: float) -> void:
 	else:
 		overlay.color.a = max(0.0, overlay.color.a - delta)
 	tilemap_layers["blueprint0"].self_modulate.a = overlay.color.a / 0.5
+	for box: CharacterBody2D in boxes:
+		box.highlight.self_modulate.a = overlay.color.a / 0.5
 		
 func _on_player_death() ->void:
 	reload()

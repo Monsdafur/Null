@@ -6,7 +6,7 @@ extends Node2D
 
 @onready var sprite: Sprite2D = $Sprite2D
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if player == null:
 		return
 	var distance: float = clamp(player.position.distance_to(target) / radius, 0.0, 1.0)

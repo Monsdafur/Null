@@ -320,9 +320,12 @@ tracks/1/path = NodePath("WalkSound")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.125),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.125, 0.375),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [0.0],
+"method": &"play"
+}, {
 "args": [0.0],
 "method": &"play"
 }]

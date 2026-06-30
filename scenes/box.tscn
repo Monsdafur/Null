@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bxr6tnsmn8onj"]
+[gd_scene load_steps=6 format=3 uid="uid://bxr6tnsmn8onj"]
 
 [ext_resource type="Script" path="res://scripts/box.gd" id="1_3cpo1"]
 [ext_resource type="Texture2D" uid="uid://do0pqqgxcf665" path="res://assets/textures/tilemap.png" id="2_id4te"]
+[ext_resource type="AudioStream" uid="uid://bq6n4nbtkqnqw" path="res://assets/audio/activation.wav" id="3_lw2lh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uvh7y"]
 size = Vector2(16, 16)
@@ -17,7 +18,7 @@ script = ExtResource("1_3cpo1")
 z_index = 1
 shape = SubResource("RectangleShape2D_uvh7y")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_id4te")
 region_enabled = true
 region_rect = Rect2(96, 128, 16, 16)
@@ -30,5 +31,15 @@ one_shot = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeathTrigger"]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_d2r3w")
+
+[node name="Highlight" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0)
+z_index = 3
+texture = ExtResource("2_id4te")
+region_enabled = true
+region_rect = Rect2(32, 544, 16, 16)
+
+[node name="HitSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_lw2lh")
 
 [connection signal="body_entered" from="DeathTrigger" to="." method="_on_death_trigger_body_entered"]
