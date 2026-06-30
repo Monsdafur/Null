@@ -1,6 +1,6 @@
 extends Node2D
 
-class_name pipe
+class_name Pipe
 enum Type {
 	NONE,
 	ENTRANCE,

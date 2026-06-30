@@ -5,6 +5,7 @@ extends Node2D
 @export var atlas_width: int
 @onready var player_spawn_timer: Timer = $PlayerSpawnDelay
 @onready var transition_filter: CanvasLayer = $TransitionFilter
+@onready var overlay: ColorRect = $BluePrintOverlay
 
 var tileset: Resource = preload("res://assets/tileset/level.tres")
 
@@ -20,7 +21,8 @@ var ins_instruction: Resource = preload("res://scenes/instruction.tscn")
 var map_data: Dictionary
 var map_width: int
 var has_entrance: bool = false
-var tilemap_layers: Array[TileMapLayer]
+var blueprint_enable: bool = false
+var tilemap_layers: Dictionary
 var pipes: Array[Node2D]
 var spikes: Dictionary
 var platforms: Dictionary
@@ -59,7 +61,7 @@ func load_level() -> void:
 			load_tilemap_layer(layer, order)
 			order += 1
 		elif layer["type"] == "objectgroup":
-			load_objects(layer)
+			load_objects(layer, order)
 	
 func load_box(tile_position: Vector2i) -> void:
 	var box: Node2D = ins_box.instantiate()
@@ -87,9 +89,11 @@ func load_emitter(tile_position: Vector2i, gid: int) -> void:
 			
 func load_tilemap_layer(data: Dictionary, order: int) -> void:
 	var tilemap_data = data["data"]
+	var name = data["name"]
 	var layer: TileMapLayer = TileMapLayer.new()
 	layer.tile_set = tileset
 	layer.z_index = order
+	print(order)
 	
 	var p: int = -1
 	for gid: int in tilemap_data:
@@ -108,9 +112,9 @@ func load_tilemap_layer(data: Dictionary, order: int) -> void:
 			layer.set_cell(tile_position, 0, atlas_position)
 	
 	add_child(layer)
-	tilemap_layers.append(layer)
+	tilemap_layers[name] = layer
 	
-func load_pipe(data: Dictionary) -> void:
+func load_pipe(data: Dictionary, order: int) -> void:
 	var reversed = data["gid"] == 70
 	var type: Dictionary = data["properties"][0]
 	var pipe: Node2D = ins_pipe.instantiate()
@@ -124,15 +128,16 @@ func load_pipe(data: Dictionary) -> void:
 			player_spawn_point += Vector2(1.0, -5.0) if not reversed else Vector2(1.0, 5.0)
 			has_entrance = true
 			global.gravity_scale = 1 if not reversed else -1
-			pipe.type = pipe.Type.ENTRANCE
+			pipe.type = Pipe.Type.ENTRANCE
 		"exit":
-			pipe.type = pipe.Type.EXIT
+			pipe.type = Pipe.Type.EXIT
 	pipe.reversed = reversed
 	pipe.position = pipe_position
 	add_child(pipe)
+	pipe.sprite.z_index = order
 	pipes.append(pipe)
 	
-func load_platform(data: Dictionary) -> void:
+func load_platform(data: Dictionary, order: int) -> void:
 	var id: int = data["id"]
 	var reversed: bool = data["properties"][0]["value"]
 	var speed: float = data["properties"][1]["value"]
@@ -145,7 +150,7 @@ func load_platform(data: Dictionary) -> void:
 	var platform: AnimatableBody2D = ins_platform.instantiate()
 	platform.reversed = reversed
 	platform.position = p0 if not reversed else p1
-	platform.z_index = 2
+	platform.z_index = order
 	platform.p0 = p0
 	platform.p1 = p1
 	platform.speed = speed
@@ -157,7 +162,7 @@ func load_platform(data: Dictionary) -> void:
 	add_child(platform)
 	platforms[id] = platform
 	
-func load_spike(data: Dictionary) -> void:
+func load_spike(data: Dictionary, order: int) -> void:
 	var id: int = data["id"]
 	var reversed = data["gid"] == 60
 	var activated: bool = bool(data["properties"][0]["value"])
@@ -167,18 +172,18 @@ func load_spike(data: Dictionary) -> void:
 	spike.reversed = reversed
 	spike.activated = activated
 	spike.position = p0
-	spike.z_index = 1
+	spike.z_index = order
 	add_child(spike)
 	spikes[id] = spike
 	
-func load_pressure_pad(data: Dictionary) -> void:
-	var reversed = data["gid"] == 67
+func load_pressure_pad(data: Dictionary, order: int) -> void:
+	var reversed = data["gid"] == 66
 	var pad_type: String = data["properties"][0]["value"]
 	var pressure_pad: Area2D = ins_pressure_pad.instantiate()
 	var pad_position: Vector2 = Vector2(float(data["x"]), float(data["y"])) + Vector2(8.0, -8.0)
 	pressure_pad.reversed = reversed
 	pressure_pad.position = pad_position
-	pressure_pad.z_index = 2
+	pressure_pad.z_index = order
 	
 	match pad_type:
 		"gravity pad":
@@ -219,7 +224,7 @@ func load_instruction(data: Dictionary) -> void:
 	instruction.sprite.z_index = 10
 	instructions.append(instruction)
 	
-func load_objects(data: Dictionary) -> void:
+func load_objects(data: Dictionary, order: int) -> void:
 	var objects_data: Array = data["objects"]
 	var pipes_data: Array[Dictionary]
 	var platforms_data: Array[Dictionary]
@@ -239,13 +244,13 @@ func load_objects(data: Dictionary) -> void:
 				load_instruction(object)
 				
 	for object: Dictionary in pipes_data:
-		load_pipe(object)
+		load_pipe(object, order)
 	for object: Dictionary in platforms_data:
-		load_platform(object)
+		load_platform(object, order)
 	for object: Dictionary in spikes_data:
-		load_spike(object)
+		load_spike(object, order)
 	for object: Dictionary in pressure_pads_data:
-		load_pressure_pad(object)
+		load_pressure_pad(object, order)
 
 func spawn_player() -> void:
 	if not has_entrance:
@@ -263,18 +268,22 @@ func spawn_player() -> void:
 
 func clear_level() -> void:
 	player.queue_free()
-	for tilemap_layer: TileMapLayer in tilemap_layers:
-		tilemap_layer.queue_free()
+	for key: String in tilemap_layers:
+		tilemap_layers[key].queue_free()
 	tilemap_layers.clear()
+	
 	for pipe: Node2D in pipes:
 		pipe.queue_free()
 	pipes.clear()
+	
 	for key: int in spikes:
 		spikes[key].queue_free()
 	spikes.clear()
+	
 	for emitter: Node2D in emitters:
 		emitter.queue_free()
 	emitters.clear()
+	
 	for key: int in platforms:
 		platforms[key].queue_free()
 	platforms.clear()
@@ -282,19 +291,23 @@ func clear_level() -> void:
 	for pad: Area2D in pressure_pads:
 		pad.queue_free()
 	pressure_pads.clear()
+	
 	for box: CharacterBody2D in boxes:
 		if not box == null:
 			box.queue_free()
 	boxes.clear()
+	
 	for instruction: Node2D in instructions:
 		instruction.queue_free()
 	instructions.clear()
+	
 	has_entrance = false
 	
-func reload() -> void:
+func reload(instant: bool = false) -> void:
 	reloading = true
-	player_spawn_timer.start()
-	await player_spawn_timer.timeout
+	if not instant:
+		player_spawn_timer.start()
+		await player_spawn_timer.timeout
 	transition_filter.reverse = true;
 	transition_filter.timer.start();
 	await transition_filter.timer.timeout
@@ -307,15 +320,22 @@ func reload() -> void:
 	reloading = false
 
 func _ready() -> void:
-	transition_filter.timer.start()
 	load_map_data()
 	load_level()
+	transition_filter.reverse = false;
+	transition_filter.timer.start();
+	await transition_filter.timer.timeout
 	spawn_player()
-
-func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("reload") and not reloading:
-		reload()
 	
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("reload") and not reloading:
+		reload(true)
+	if Input.is_action_pressed("blueprint_enable"):
+		overlay.color.a = min(0.5, overlay.color.a + delta)
+	else:
+		overlay.color.a = max(0.0, overlay.color.a - delta)
+	tilemap_layers["blueprint0"].self_modulate.a = overlay.color.a / 0.5
+		
 func _on_player_death() ->void:
 	reload()
 
