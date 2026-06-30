@@ -5,7 +5,7 @@ extends CharacterBody2D
 
 @onready var interact_trigger: Area2D = $InteractTrigger
 
-var direction: float
+var direction: int
 var allow_move: bool = false
 var is_holding: bool = false
 var is_pushing: bool = false
@@ -17,14 +17,19 @@ func _physics_process(delta: float) -> void:
 	
 	if not is_on_floor():
 		velocity += get_gravity() * global.gravity_scale * delta
-	elif Input.is_action_just_pressed("ui_up") and allow_move:
+	elif Input.is_action_just_pressed("jump") and allow_move:
 		velocity.y = jump_velocity * global.gravity_scale
 	
-	direction = Input.get_axis("ui_left", "ui_right") if allow_move else 0.0
+	direction = 0
+	if allow_move:
+		if Input.is_action_pressed("move_left"):
+			direction -= 1
+		if Input.is_action_pressed("move_right"):
+			direction += 1
 	
 	if not direction == 0:
 		interact_trigger.position.x = 5.0 if direction == 1 else -6.0
-		velocity.x = direction * speed
+		velocity.x = speed * direction
 	else:	
 		velocity.x = move_toward(velocity.x, 0, speed)
 
