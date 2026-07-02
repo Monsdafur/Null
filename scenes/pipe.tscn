@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cjwc38uu7ekgi"]
+[gd_scene format=3 uid="uid://cjwc38uu7ekgi"]
 
-[ext_resource type="Script" path="res://scripts/pipe.gd" id="1_duy84"]
-[ext_resource type="Texture2D" uid="uid://do0pqqgxcf665" path="res://assets/textures/tilemap.png" id="2_lhtpf"]
+[ext_resource type="Script" uid="uid://wpelh2eyw54o" path="res://scripts/pipe.gd" id="1_duy84"]
+[ext_resource type="Texture2D" uid="uid://dh3di18a2hqpp" path="res://assets/textures/tileset.png" id="2_arpqm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_14thd"]
 size = Vector2(14, 9)
@@ -9,36 +9,36 @@ size = Vector2(14, 9)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_400jq"]
 size = Vector2(4, 2)
 
-[node name="Pipe" type="Node2D"]
+[node name="Pipe" type="Node2D" unique_id=1070250446]
 script = ExtResource("1_duy84")
 
-[node name="Collider" type="StaticBody2D" parent="."]
+[node name="Collider" type="StaticBody2D" parent="." unique_id=1582110601]
 position = Vector2(0, 3.5)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Collider"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collider" unique_id=400219559]
 shape = SubResource("RectangleShape2D_14thd")
 
-[node name="Trigger" type="Area2D" parent="."]
+[node name="Trigger" type="Area2D" parent="." unique_id=146668240]
 position = Vector2(0, -2)
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Trigger"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trigger" unique_id=265354328]
 shape = SubResource("RectangleShape2D_400jq")
 debug_color = Color(0.988895, 0, 0.296781, 0.42)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1238198153]
 texture_filter = 1
 texture_repeat = 1
-texture = ExtResource("2_lhtpf")
+texture = ExtResource("2_arpqm")
 region_enabled = true
-region_rect = Rect2(64, 128, 16, 16)
+region_rect = Rect2(48, 480, 16, 16)
 
-[node name="Highlight" type="Sprite2D" parent="."]
+[node name="Highlight" type="Sprite2D" parent="." unique_id=1398745759]
 z_index = 10
 texture_filter = 1
 texture_repeat = 1
-texture = ExtResource("2_lhtpf")
+texture = ExtResource("2_arpqm")
 region_enabled = true
-region_rect = Rect2(0, 544, 16, 16)
+region_rect = Rect2(16, 672, 16, 16)
 
 [connection signal="body_entered" from="Trigger" to="." method="_on_trigger_body_entered"]

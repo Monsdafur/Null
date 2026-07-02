@@ -10,7 +10,7 @@ extends Area2D
 var bodies: int = 0
 
 func _ready() -> void:
-	sprite.region_rect = Rect2i(Vector2i(0, 8) * 16, Vector2i(16, 16)) if not reversed else Rect2i(Vector2i(1, 8) * 16, Vector2i(16, 16))
+	sprite.region_rect = Rect2i(16, 480, 16, 16) if not reversed else Rect2i(32, 480, 16, 16)
 	shape.position = Vector2(0.0, 7.0) if not reversed else Vector2(0.0, -7.0)
 
 func _on_body_entered(_body: Node2D) -> void:

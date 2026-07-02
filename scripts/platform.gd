@@ -15,7 +15,7 @@ enum Type {
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
-@onready var bounce_sound: AudioStreamPlayer = $BounceSound
+@onready var bounce_sound: AudioStreamPlayer = $"../AudioStreamManager/ActivationSound"
 
 var reversed: bool = false
 var active: bool = false
@@ -31,10 +31,10 @@ func _ready() -> void:
 	var shape: RectangleShape2D = RectangleShape2D.new()
 	if type == Type.HORIZONTAL:
 		shape.size = Vector2(48.0, 16.0)
-		sprite.region_rect = Rect2i(0, 80, 48, 16)
+		sprite.region_rect = Rect2i(96, 80, 48, 16)
 	elif type == Type.VERTICAL:
 		shape.size = Vector2(16.0, 48.0)
-		sprite.region_rect = Rect2i(112, 80, 16, 48)
+		sprite.region_rect = Rect2i(144, 64, 16, 48)
 	collision_shape.shape = shape
 
 func _physics_process(delta: float) -> void:

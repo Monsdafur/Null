@@ -11,7 +11,7 @@ enum State {
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var area: Area2D = $Area2D
-@onready var activate_sound: AudioStreamPlayer = $ActivateSound
+@onready var activate_sound: AudioStreamPlayer = $"../AudioStreamManager/ActivationSound"
 
 var state: State
 var dormant_animation: String

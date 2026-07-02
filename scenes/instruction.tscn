@@ -1,12 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://blwhusxdak21"]
+[gd_scene format=3 uid="uid://blwhusxdak21"]
 
-[ext_resource type="Script" path="res://scripts/instruction.gd" id="1_ndayi"]
-[ext_resource type="Texture2D" uid="uid://do0pqqgxcf665" path="res://assets/textures/tilemap.png" id="2_2bvax"]
+[ext_resource type="Script" uid="uid://bervyudpjw6u5" path="res://scripts/instruction.gd" id="1_ndayi"]
+[ext_resource type="Texture2D" uid="uid://dh3di18a2hqpp" path="res://assets/textures/tileset.png" id="2_posfn"]
 
-[node name="Instruction" type="Node2D"]
+[node name="Instruction" type="Node2D" unique_id=444158616]
 script = ExtResource("1_ndayi")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_2bvax")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1920371377]
+texture = ExtResource("2_posfn")
 region_enabled = true
 region_rect = Rect2(0, 192, 16, 16)

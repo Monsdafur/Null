@@ -13,11 +13,14 @@ enum Direction {
 @onready var trigger: Area2D = $Trigger
 @onready var segment: AnimatedSprite2D = $Segment
 @onready var hit: AnimatedSprite2D = $Hit
+@onready var ray_sound: AudioStreamPlayer = $"../AudioStreamManager/LaserSound"
 
 var direction_vector: Vector2
 var pre_length: float = 0.0
 
 func _ready() -> void:
+	if not ray_sound.playing:
+		ray_sound.play()
 	trigger.get_node("CollisionShape2D").shape = RectangleShape2D.new()
 	trigger.get_node("CollisionShape2D").shape.size = Vector2(16.0, 16.0)
 	match direction:

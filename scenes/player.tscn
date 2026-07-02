@@ -1,8 +1,8 @@
-[gd_scene load_steps=57 format=3 uid="uid://07ib3xnjhokk"]
+[gd_scene format=3 uid="uid://07ib3xnjhokk"]
 
 [ext_resource type="Texture2D" uid="uid://beaks68crmjjp" path="res://assets/textures/player.png" id="1_aaqob"]
-[ext_resource type="Script" path="res://scripts/player_movement.gd" id="1_wgk0q"]
-[ext_resource type="Script" path="res://scripts/player_animation_handler.gd" id="3_mxo7y"]
+[ext_resource type="Script" uid="uid://dem6dk4ds40ee" path="res://scripts/player_movement.gd" id="1_wgk0q"]
+[ext_resource type="Script" uid="uid://blvhnwyjpi216" path="res://scripts/player_animation_handler.gd" id="3_mxo7y"]
 [ext_resource type="AudioStream" uid="uid://d2xwb7ekys3dx" path="res://assets/audio/jump.wav" id="4_ffwgi"]
 [ext_resource type="AudioStream" uid="uid://bvrpv5foppt4s" path="res://assets/audio/walk.wav" id="5_x6qf3"]
 [ext_resource type="AudioStream" uid="uid://cikr567typgkr" path="res://assets/audio/death.wav" id="6_u1o1e"]
@@ -320,12 +320,9 @@ tracks/1/path = NodePath("WalkSound")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.125, 0.375),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0.375),
+"transitions": PackedFloat32Array(1),
 "values": [{
-"args": [0.0],
-"method": &"play"
-}, {
 "args": [0.0],
 "method": &"play"
 }]
@@ -378,15 +375,15 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tt03w"]
 _data = {
-"RESET": SubResource("Animation_asms3"),
-"death": SubResource("Animation_5mwad"),
-"falling": SubResource("Animation_xsm83"),
-"idle": SubResource("Animation_81c2s"),
-"jump_up": SubResource("Animation_d54wn"),
-"push": SubResource("Animation_5rd8h"),
-"push_idle": SubResource("Animation_ktenf"),
-"running": SubResource("Animation_jnecf"),
-"spawn": SubResource("Animation_n5ru3")
+&"RESET": SubResource("Animation_asms3"),
+&"death": SubResource("Animation_5mwad"),
+&"falling": SubResource("Animation_xsm83"),
+&"idle": SubResource("Animation_81c2s"),
+&"jump_up": SubResource("Animation_d54wn"),
+&"push": SubResource("Animation_5rd8h"),
+&"push_idle": SubResource("Animation_ktenf"),
+&"running": SubResource("Animation_jnecf"),
+&"spawn": SubResource("Animation_n5ru3")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0wh1x"]
@@ -395,18 +392,18 @@ size = Vector2(2, 11)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rcgoc"]
 size = Vector2(7, 12)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" unique_id=1589274936]
 z_index = 1
 collision_layer = 2
 script = ExtResource("1_wgk0q")
 speed = 128.0
 jump_velocity = -280.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=373575936]
 position = Vector2(-0.5, 1)
 shape = SubResource("RectangleShape2D_8bfk5")
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=2141730790]
 tree_root = SubResource("AnimationNodeStateMachine_wo60m")
 anim_player = NodePath("../AnimationPlayer")
 parameters/conditions/dead = false
@@ -418,13 +415,12 @@ parameters/conditions/pushing_run = false
 parameters/conditions/running = false
 script = ExtResource("3_mxo7y")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=234803213]
 active = false
-libraries = {
-"": SubResource("AnimationLibrary_tt03w")
-}
+libraries/ = SubResource("AnimationLibrary_tt03w")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=426367053]
+z_index = 1
 texture_filter = 1
 texture_repeat = 1
 texture = ExtResource("1_aaqob")
@@ -433,32 +429,32 @@ vframes = 6
 frame = 5
 region_rect = Rect2(0, 64, 16, 16)
 
-[node name="InteractTrigger" type="Area2D" parent="."]
+[node name="InteractTrigger" type="Area2D" parent="." unique_id=813208814]
 position = Vector2(5, 0)
 collision_layer = 0
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractTrigger"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractTrigger" unique_id=1055445322]
 shape = SubResource("RectangleShape2D_0wh1x")
 debug_color = Color(1, 0, 0, 0.419608)
 
-[node name="CrushTrigger" type="Area2D" parent="."]
+[node name="CrushTrigger" type="Area2D" parent="." unique_id=1365877832]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CrushTrigger"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CrushTrigger" unique_id=1091479281]
 position = Vector2(-0.5, 1)
 shape = SubResource("RectangleShape2D_rcgoc")
 
-[node name="JumpSound" type="AudioStreamPlayer" parent="."]
+[node name="JumpSound" type="AudioStreamPlayer" parent="." unique_id=1142838321]
 stream = ExtResource("4_ffwgi")
 volume_db = -15.0
 
-[node name="WalkSound" type="AudioStreamPlayer" parent="."]
+[node name="WalkSound" type="AudioStreamPlayer" parent="." unique_id=1251847100]
 stream = ExtResource("5_x6qf3")
 
-[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+[node name="DeathSound" type="AudioStreamPlayer" parent="." unique_id=1452813879]
 stream = ExtResource("6_u1o1e")
 
-[node name="SpawnSound" type="AudioStreamPlayer" parent="."]
+[node name="SpawnSound" type="AudioStreamPlayer" parent="." unique_id=1576010426]
 stream = ExtResource("7_1wjt0")
 
 [connection signal="body_entered" from="InteractTrigger" to="." method="_on_interact_trigger_body_entered"]

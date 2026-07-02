@@ -1,24 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://dtffb133s0j4q"]
+[gd_scene format=3 uid="uid://dtffb133s0j4q"]
 
 [ext_resource type="PackedScene" uid="uid://datl2eavfw6cg" path="res://scenes/transition_filter.tscn" id="2_nfqtn"]
 [ext_resource type="PackedScene" uid="uid://bdts5utildbrv" path="res://scenes/level.tscn" id="3_rgulm"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" unique_id=1875942122]
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=29601861]
 z_index = 100
 zoom = Vector2(2, 2)
 
-[node name="Level" parent="." instance=ExtResource("3_rgulm")]
-position = Vector2(-400, -224)
-level = 7
-max_level = 8
-atlas_width = 8
+[node name="Level" parent="." unique_id=183393350 instance=ExtResource("3_rgulm")]
+position = Vector2(-480, -256)
+level = 0
+max_level = 0
 
-[node name="TransitionFilter" parent="Level" instance=ExtResource("2_nfqtn")]
+[node name="TransitionFilter" parent="Level" unique_id=282744756 instance=ExtResource("2_nfqtn")]
 
-[node name="BluePrintOverlay" type="ColorRect" parent="Level"]
-z_index = 3
+[node name="BluePrintOverlay" type="ColorRect" parent="Level" unique_id=461262298]
+z_index = 5
 z_as_relative = false
 anchors_preset = 15
 anchor_right = 1.0
