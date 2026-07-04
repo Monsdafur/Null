@@ -42,7 +42,7 @@ func convert_position(grid_position: int, width: int) -> Vector2:
 	return Vector2i(x, y)
 	
 func load_map_data() -> void:
-	var path: String = String("res://data/levels/NullG.ldtk")
+	var path: String = String("res://data/levels/Null.ldtk")
 	if not FileAccess.file_exists(path):
 		print("File do not exist")
 		return
@@ -52,10 +52,8 @@ func load_map_data() -> void:
 	
 	map_data = JSON.parse_string(string_data)
 	
-func load_pipe(entity_position: Vector2, entity: Dictionary, order: int):
-	var atlas_position: Vector2i = Vector2i(int(entity["__tile"]["x"]), int(entity["__tile"]["y"]))
+func load_pipe(entity_position: Vector2, entity: Dictionary, order: int, inverted: bool) -> void:
 	var properties: Array = entity["fieldInstances"]
-	var reversed = atlas_position.x == 64
 	var type: String = String(properties[0]["__value"])
 	var pipe: Node2D = ins_pipe.instantiate()
 	match type:
@@ -64,26 +62,26 @@ func load_pipe(entity_position: Vector2, entity: Dictionary, order: int):
 				print("Cant have more than 1 entrance, skipping")
 				return
 			player_spawn_point = entity_position
-			player_spawn_point += Vector2(1.0, -5.0) if not reversed else Vector2(1.0, 5.0)
+			player_spawn_point += Vector2(1.0, -5.0) if not inverted else Vector2(1.0, 5.0)
 			has_entrance = true
-			global.gravity_scale = 1 if not reversed else -1
+			global.gravity_scale = 1 if not inverted else -1
 			pipe.type = Pipe.Type.ENTRANCE
 		"Exit":
 			pipe.type = Pipe.Type.EXIT
-	pipe.reversed = reversed
+	pipe.reversed = inverted
 	pipe.position = entity_position
 	add_child(pipe)
 	pipe.sprite.z_index = order
 	pipes.append(pipe)
 	
-func load_box(entity_position: Vector2, order: int):
+func load_box(entity_position: Vector2, order: int) -> void:
 	var box: Node2D = ins_box.instantiate()
 	add_child(box)
 	box.position = entity_position
 	box.sprite.z_index = order
 	boxes.append(box)
 	
-func load_platform(entity_position: Vector2, entity: Dictionary, order: int):
+func load_platform(entity_position: Vector2, entity: Dictionary, order: int) -> void:
 	var properties: Array = entity["fieldInstances"]
 	var id: String = String(entity["iid"])
 	var type: String = String(properties[0]["__value"])
@@ -123,7 +121,7 @@ func load_spike(entity_position: Vector2, entity: Dictionary, order: int, invert
 	add_child(spike)
 	spikes[id] = spike
 
-func load_pressure_pad(entity_position: Vector2, entity: Dictionary, order: int, inverted: bool):
+func load_pressure_pad(entity_position: Vector2, entity: Dictionary, order: int, inverted: bool) -> void:
 	var properties: Array = entity["fieldInstances"]
 	var pad_type: String = properties[0]["__value"]
 	var pressure_pad: Area2D = ins_pressure_pad.instantiate()
@@ -148,10 +146,27 @@ func load_pressure_pad(entity_position: Vector2, entity: Dictionary, order: int,
 			
 	add_child(pressure_pad)
 	pressure_pads.append(pressure_pad)
+	
+func load_instruction(entity_position: Vector2, entity: Dictionary, order: int) -> void:
+	var properties: Array = entity["fieldInstances"]
+	var px: float = float(properties[0]["__value"]["cx"])
+	var py: float = float(properties[0]["__value"]["cy"])
+	var ax: int = int(properties[1]["__value"][0])
+	var ay: int = int(properties[1]["__value"][1])
+	var radius: float = float(properties[2]["__value"])
+	
+	var instruction: Node2D = ins_instruction.instantiate()
+	add_child(instruction)
+	instruction.position = entity_position
+	instruction.target = Vector2(px, py) * 16.0 + Vector2(8.0, 8.0)
+	instruction.radius = radius
+	instruction.z_index = 10
+	instruction.sprite.region_rect = Rect2i(ax, ay, 16, 16)
+	instruction.sprite.visible = false
+	instructions.append(instruction)
+	
 
-func load_entities(entity_layer: Dictionary, order: int):
-	var box_data: Dictionary
-	var pipe_data: Dictionary
+func load_entities(entity_layer: Dictionary, order: int) -> void:
 	var platform_data: Dictionary
 	var pad_data: Dictionary
 	var pad_inv_data: Dictionary
@@ -164,9 +179,11 @@ func load_entities(entity_layer: Dictionary, order: int):
 		
 		match identifier:
 			"Box":
-				box_data[entity_position] = entity
+				load_box(entity_position, order)
 			"Pipe":
-				pipe_data[entity_position] = entity
+				load_pipe(entity_position, entity, order, false)
+			"PipeInv":
+				load_pipe(entity_position, entity, order, true)
 			"Platform":
 				platform_data[entity_position] = entity
 			"Spike":
@@ -177,14 +194,9 @@ func load_entities(entity_layer: Dictionary, order: int):
 				pad_data[entity_position] = entity
 			"PressurePadInv":
 				pad_inv_data[entity_position] = entity
+			"Instruction":
+				load_instruction(entity_position, entity, order)
 				
-	
-	for entity_position: Vector2 in box_data:
-		load_box(entity_position, order)
-		
-	for entity_position: Vector2 in pipe_data:
-		load_pipe(entity_position, pipe_data[entity_position], order)
-		
 	for entity_position: Vector2 in platform_data:
 		load_platform(entity_position, platform_data[entity_position], order)
 		
@@ -217,6 +229,12 @@ func load_level() -> void:
 				var atlas_coord: Vector2i = Vector2i(int(cell["src"][0]), int(cell["src"][1]))
 				atlas_coord /= 16
 				tilemap_layer.set_cell(cell_position, 0, atlas_coord)
+			for cell: Dictionary in layer["gridTiles"]:
+				var cell_position: Vector2i = Vector2i(int(cell["px"][0]), int(cell["px"][1]))
+				cell_position /= 16
+				var atlas_coord: Vector2i = Vector2i(int(cell["src"][0]), int(cell["src"][1]))
+				atlas_coord /= 16
+				tilemap_layer.set_cell(cell_position, 0, atlas_coord)
 			add_child(tilemap_layer)
 			print(layer["__identifier"])
 			tilemap_layers[layer["__identifier"]] = tilemap_layer
@@ -236,6 +254,7 @@ func spawn_player() -> void:
 
 	for instruction: Node2D in instructions:
 		instruction.player = player
+		instruction.sprite.visible = true
 
 func clear_level() -> void:
 	player.queue_free()

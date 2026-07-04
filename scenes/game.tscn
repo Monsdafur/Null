@@ -11,19 +11,19 @@ zoom = Vector2(2, 2)
 
 [node name="Level" parent="." unique_id=183393350 instance=ExtResource("3_rgulm")]
 position = Vector2(-480, -256)
-level = 0
-max_level = 0
+level = 7
+max_level = 7
 
 [node name="TransitionFilter" parent="Level" unique_id=282744756 instance=ExtResource("2_nfqtn")]
 
 [node name="BluePrintOverlay" type="ColorRect" parent="Level" unique_id=461262298]
-z_index = 5
+z_index = 6
 z_as_relative = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 800.0
-offset_bottom = 448.0
+offset_right = 960.0
+offset_bottom = 512.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.247059, 0.121569, 0.247059, 0)

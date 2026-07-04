@@ -9,4 +9,4 @@ script = ExtResource("1_ndayi")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1920371377]
 texture = ExtResource("2_posfn")
 region_enabled = true
-region_rect = Rect2(0, 192, 16, 16)
+region_rect = Rect2(144, 688, 16, 16)
