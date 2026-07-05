@@ -135,9 +135,11 @@ func load_pressure_pad(entity_position: Vector2, entity: Dictionary, order: int,
 			var gravity: int = 1 if inverted else -1
 			pressure_pad.activation_functions.append(global.set_gravity_scale.bind(gravity))
 		"Platform":
-			var platform_id: String = properties[1]["__value"][0]["entityIid"]
-			pressure_pad.activation_functions.append(platforms[platform_id].set_reverse.bind(true))
-			pressure_pad.deactivation_functions.append(platforms[platform_id].set_reverse.bind(false))
+			var count: int = properties[1]["__value"].size()
+			for i: int in range(count):
+				var platform_id: String = properties[1]["__value"][i]["entityIid"]
+				pressure_pad.activation_functions.append(platforms[platform_id].set_reverse.bind(true))
+				pressure_pad.deactivation_functions.append(platforms[platform_id].set_reverse.bind(false))
 		"Spike":
 			var count: int = properties[1]["__value"].size()
 			for i: int in range(count):
@@ -220,7 +222,7 @@ func load_emitter(cell_position: Vector2i, direction: RayEmitter.Direction) -> v
 	emitter.direction = direction
 	add_child(emitter)
 	emitter.position = emitter_position
-	emitter.z_index = 1
+	emitter.z_index = 2
 	emitters.append(emitter)
 	
 func load_layer(layer: Dictionary, order: int) -> void:
