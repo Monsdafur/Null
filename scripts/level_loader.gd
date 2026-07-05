@@ -9,6 +9,7 @@ extends Node2D
 @onready var audio_stream_manager: Node2D = $AudioStreamManager
 
 var tileset: Resource = preload("res://assets/tileset/tileset.tres")
+var water_tileset: Resource = preload("res://assets/tileset/water.tres")
 
 var ins_pressure_pad: Resource = preload("res://scenes/pressure_pad.tscn")
 var ins_platform: Resource = preload("res://scenes/platform.tscn")
@@ -223,18 +224,20 @@ func load_emitter(cell_position: Vector2i, direction: RayEmitter.Direction) -> v
 	emitters.append(emitter)
 	
 func load_layer(layer: Dictionary, order: int) -> void:
-	var id: int = 0
 	if layer["__identifier"] == "Blueprint":
 		overlay.z_index = order
 	var tilemap_layer: TileMapLayer = TileMapLayer.new()
-	tilemap_layer.tile_set = tileset
 	for cell: Dictionary in layer["autoLayerTiles"]:
 		var cell_position: Vector2i = Vector2i(int(cell["px"][0]), int(cell["px"][1]))
 		cell_position /= 16
 		var atlas_coord: Vector2i = Vector2i(int(cell["src"][0]), int(cell["src"][1]))
-		id = 1 if layer["__identifier"] == "Water" or (atlas_coord.x == 48 and atlas_coord.y == 464) else 0
 		atlas_coord /= 16
-		tilemap_layer.set_cell(cell_position, id, atlas_coord)
+		if layer["__identifier"] == "Water" or layer["__identifier"] == "DangerousWater":
+			tilemap_layer.tile_set = water_tileset
+			tilemap_layer.add_to_group("water")
+		else:
+			tilemap_layer.tile_set = tileset
+		tilemap_layer.set_cell(cell_position, 0, atlas_coord)
 		
 		if atlas_coord.y == 6:
 			if atlas_coord.x == 0:

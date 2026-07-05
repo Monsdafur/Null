@@ -37,6 +37,10 @@ window/size/mode=3
 
 project/assembly_name="Platformer"
 
+[global_group]
+
+water=""
+
 [input]
 
 interact={
