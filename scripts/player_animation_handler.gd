@@ -58,11 +58,8 @@ func _on_global_game_over() -> void:
 	death.emit()
 	
 func _on_global_level_cleared() -> void:
-	if dead:
-		return
-	dead = true
-	spawn_sound.play()
 	set_process(false)
+	spawn_sound.play()
 	state_machine.travel("death")
 	player_movement.set_physics_process(false)
 	await animation_finished
