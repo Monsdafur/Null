@@ -38,4 +38,4 @@ func _on_quit_button_up() -> void:
 	transition_filter.reverse = true;
 	transition_filter.timer.start();
 	await transition_filter.timer.timeout
-	get_tree().quit()
+	global.quit_game()

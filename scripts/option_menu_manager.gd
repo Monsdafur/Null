@@ -7,6 +7,9 @@ extends Node2D
 @onready var transition_filter: CanvasLayer = $TransitionFilter
 
 func _ready() -> void:
+	sound_checkbox.set_state(global.sound_on)
+	music_checkbox.set_state(global.music_on)
+	effect_checkbox.set_state(global.effect_on)
 	sound_checkbox.grab_focus.call_deferred()
 	transition_filter.timer.start()
 

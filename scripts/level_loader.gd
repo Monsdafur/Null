@@ -1,6 +1,5 @@
 extends Node2D
 
-@export var level: int = 1
 @export var max_level: int = 1
 
 @onready var player_spawn_timer: Timer = $PlayerSpawnDelay
@@ -257,9 +256,9 @@ func load_layer(layer: Dictionary, order: int) -> void:
 
 func load_level() -> void:
 	audio_stream_manager.stop_all()
-	var order: int = map_data["levels"][level]["layerInstances"].size()
+	var order: int = map_data["levels"][global.current_level]["layerInstances"].size()
 	
-	for layer: Dictionary in map_data["levels"][level]["layerInstances"]:
+	for layer: Dictionary in map_data["levels"][global.current_level]["layerInstances"]:
 		if layer["__type"] == "Entities":
 			load_entities(layer, order)
 		else:
@@ -360,16 +359,16 @@ func _process(delta: float) -> void:
 		pipe.highlight.self_modulate.a = overlay.color.a / 0.5
 
 	if Input.is_action_just_pressed("next") and not reloading:
-		level += 1
-		if level > max_level:
-			level = 0
+		global.current_level += 1
+		if global.current_level > max_level:
+			global.current_level = 0
 		reload(true)
 
 func _on_player_death() ->void:
 	reload()
 
 func _on_player_win() ->void:
-	level += 1
-	if level > max_level:
-		level = 0
+	global.current_level += 1
+	if global.current_level > max_level:
+		global.current_level = 0
 	reload()

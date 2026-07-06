@@ -50,4 +50,4 @@ func _on_transition_timeout() -> void:
 		ButtonType.OPTIONS:
 			get_tree().change_scene_to_file("res://scenes/option_menu.tscn")
 		ButtonType.QUIT:
-			get_tree().quit()
+			global.quit_game()
