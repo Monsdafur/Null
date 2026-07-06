@@ -95,4 +95,6 @@ layer = 2
 one_shot = true
 
 [connection signal="toggle" from="MenuManager/SoundCheckbox" to="." method="_on_sound_checkbox_toggle"]
+[connection signal="toggle" from="MenuManager/MusicCheckbox" to="." method="_on_music_checkbox_toggle"]
+[connection signal="toggle" from="MenuManager/EffectCheckbox" to="." method="_on_effect_checkbox_toggle"]
 [connection signal="button_up" from="MenuManager/Return" to="." method="_on_return_button_up"]

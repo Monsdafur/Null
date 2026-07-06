@@ -7,6 +7,7 @@ extends Node2D
 @onready var transition_filter: CanvasLayer = $TransitionFilter
 
 func _ready() -> void:
+	print("YES" if global.sound_on else "NO")
 	sound_checkbox.set_state(global.sound_on)
 	music_checkbox.set_state(global.music_on)
 	effect_checkbox.set_state(global.effect_on)
@@ -16,6 +17,12 @@ func _ready() -> void:
 func _on_sound_checkbox_toggle(state: bool) -> void:
 	global.sound_on = state
 
+func _on_music_checkbox_toggle(state: bool) -> void:
+	global.music_on = state
+	
+func _on_effect_checkbox_toggle(state: bool) -> void:
+	global.effect_on = state
+	
 func _on_return_button_up() -> void:
 	transition_filter.reverse = true
 	transition_filter.timer.start()
