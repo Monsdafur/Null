@@ -1,0 +1,26 @@
+[gd_resource type="AudioBusLayout" format=3 uid="uid://cn4p5nc77um8t"]
+
+[sub_resource type="AudioEffectLimiter" id="AudioEffectLimiter_li86c"]
+resource_name = "Limiter"
+
+[sub_resource type="AudioEffectLimiter" id="AudioEffectLimiter_e8rc8"]
+resource_name = "Limiter"
+
+[resource]
+bus/0/volume_db = -5.5043726
+bus/0/effect/0/effect = SubResource("AudioEffectLimiter_li86c")
+bus/0/effect/0/enabled = true
+bus/1/name = &"Sound"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = 0.0
+bus/1/send = &"Master"
+bus/1/effect/0/effect = SubResource("AudioEffectLimiter_e8rc8")
+bus/1/effect/0/enabled = true
+bus/2/name = &"Music"
+bus/2/solo = false
+bus/2/mute = false
+bus/2/bypass_fx = false
+bus/2/volume_db = 0.0
+bus/2/send = &"Master"

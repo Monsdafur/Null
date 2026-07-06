@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://bvbup21eppmup"]
+
+[ext_resource type="Theme" uid="uid://dscqsy1iy1uws" path="res://assets/themes/custom_theme.tres" id="1_n024e"]
+[ext_resource type="Script" uid="uid://dorhlrk8qq8hl" path="res://scripts/checkbox.gd" id="2_nvtwd"]
+[ext_resource type="LabelSettings" uid="uid://cu28yf3qfxyny" path="res://assets/fonts/default_label_setting.tres" id="3_a8ijb"]
+
+[node name="Checkbox" type="Button" unique_id=91721255]
+offset_left = 864.0
+offset_top = 580.0
+offset_right = 1056.0
+offset_bottom = 620.0
+theme = ExtResource("1_n024e")
+script = ExtResource("2_nvtwd")
+
+[node name="Label" type="Label" parent="." unique_id=581644004]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 20.0
+offset_top = -2.0
+offset_right = 20.0
+offset_bottom = 16.0
+grow_horizontal = 2
+text = "CHECKBOX"
+label_settings = ExtResource("3_a8ijb")
+
+[node name="State" type="Label" parent="." unique_id=389218106]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -20.0
+offset_top = -2.0
+offset_right = -20.0
+offset_bottom = 16.0
+grow_horizontal = 2
+text = "ON"
+label_settings = ExtResource("3_a8ijb")
+horizontal_alignment = 2
+
+[connection signal="button_up" from="." to="." method="_on_button_up"]

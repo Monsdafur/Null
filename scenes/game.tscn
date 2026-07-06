@@ -1,29 +1,111 @@
 [gd_scene format=3 uid="uid://dtffb133s0j4q"]
 
+[ext_resource type="Script" uid="uid://c41eiju4r2qnl" path="res://scripts/game_manager.gd" id="1_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://datl2eavfw6cg" path="res://scenes/transition_filter.tscn" id="2_nfqtn"]
 [ext_resource type="PackedScene" uid="uid://bdts5utildbrv" path="res://scenes/level.tscn" id="3_rgulm"]
+[ext_resource type="Theme" uid="uid://dscqsy1iy1uws" path="res://assets/themes/custom_theme.tres" id="4_p57ef"]
+[ext_resource type="LabelSettings" uid="uid://cu28yf3qfxyny" path="res://assets/fonts/default_label_setting.tres" id="5_u5sy4"]
 
 [node name="Game" type="Node2D" unique_id=1875942122]
+script = ExtResource("1_lnu2h")
+
+[node name="TransitionFilter" parent="." unique_id=282744756 instance=ExtResource("2_nfqtn")]
+process_mode = 3
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=29601861]
+process_mode = 3
 z_index = 100
 zoom = Vector2(2, 2)
 
 [node name="Level" parent="." unique_id=183393350 instance=ExtResource("3_rgulm")]
+process_mode = 1
 position = Vector2(-480, -256)
-level = 9
-max_level = 9
+level = 4
+max_level = 10
 
-[node name="TransitionFilter" parent="Level" unique_id=282744756 instance=ExtResource("2_nfqtn")]
+[node name="PauseMenu" type="Control" parent="." unique_id=663006360]
+process_mode = 2
+z_index = 10
+layout_mode = 3
+anchors_preset = 0
+offset_left = -480.0
+offset_top = -270.0
+offset_right = 1440.0
+offset_bottom = 810.0
+scale = Vector2(0.5, 0.5)
 
-[node name="BluePrintOverlay" type="ColorRect" parent="Level" unique_id=461262298]
-z_index = 6
-z_as_relative = false
+[node name="ColorRect" type="ColorRect" parent="PauseMenu" unique_id=915266790]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 960.0
-offset_bottom = 512.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.247059, 0.121569, 0.247059, 0)
+color = Color(0.24705882, 0.12156863, 0.24705882, 0.7490196)
+
+[node name="Resume" type="Button" parent="PauseMenu" unique_id=1175779235]
+layout_mode = 0
+offset_left = 864.0
+offset_top = 540.0
+offset_right = 1056.0
+offset_bottom = 580.0
+theme = ExtResource("4_p57ef")
+
+[node name="Label" type="Label" parent="PauseMenu/Resume" unique_id=811364105]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 3.0
+offset_top = -2.0
+offset_right = 3.0
+offset_bottom = 16.0
+grow_horizontal = 2
+text = "RESUME"
+label_settings = ExtResource("5_u5sy4")
+horizontal_alignment = 1
+
+[node name="MainMenu" type="Button" parent="PauseMenu" unique_id=581602484]
+layout_mode = 0
+offset_left = 864.0
+offset_top = 580.0
+offset_right = 1056.0
+offset_bottom = 620.0
+theme = ExtResource("4_p57ef")
+
+[node name="Label" type="Label" parent="PauseMenu/MainMenu" unique_id=786496228]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 3.0
+offset_top = -2.0
+offset_right = 3.0
+offset_bottom = 16.0
+grow_horizontal = 2
+text = "MAIN MENU"
+label_settings = ExtResource("5_u5sy4")
+horizontal_alignment = 1
+
+[node name="Quit" type="Button" parent="PauseMenu" unique_id=232930798]
+layout_mode = 0
+offset_left = 864.0
+offset_top = 620.0
+offset_right = 1056.0
+offset_bottom = 660.0
+theme = ExtResource("4_p57ef")
+
+[node name="Label" type="Label" parent="PauseMenu/Quit" unique_id=844397719]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 3.0
+offset_top = -2.0
+offset_right = 3.0
+offset_bottom = 16.0
+grow_horizontal = 2
+text = "QUIT"
+label_settings = ExtResource("5_u5sy4")
+horizontal_alignment = 1
+
+[connection signal="button_up" from="PauseMenu/Resume" to="." method="_on_resume_button_up"]
+[connection signal="button_up" from="PauseMenu/MainMenu" to="." method="_on_main_menu_button_up"]
+[connection signal="button_up" from="PauseMenu/Quit" to="." method="_on_quit_button_up"]

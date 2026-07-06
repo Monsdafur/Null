@@ -163,7 +163,7 @@ states/running/position = Vector2(502, 99)
 states/spawn/node = SubResource("AnimationNodeAnimation_dhixp")
 states/spawn/position = Vector2(96, 99)
 transitions = ["idle", "running", SubResource("AnimationNodeStateMachineTransition_gx8kv"), "running", "idle", SubResource("AnimationNodeStateMachineTransition_u8mvm"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_0m1vl"), "running", "death", SubResource("AnimationNodeStateMachineTransition_43hwh"), "jump_up", "idle", SubResource("AnimationNodeStateMachineTransition_xqis0"), "idle", "jump_up", SubResource("AnimationNodeStateMachineTransition_p8j4c"), "jump_up", "running", SubResource("AnimationNodeStateMachineTransition_by16j"), "running", "jump_up", SubResource("AnimationNodeStateMachineTransition_0v7wa"), "jump_up", "falling", SubResource("AnimationNodeStateMachineTransition_n4ji3"), "idle", "falling", SubResource("AnimationNodeStateMachineTransition_37r15"), "falling", "idle", SubResource("AnimationNodeStateMachineTransition_g23uu"), "running", "falling", SubResource("AnimationNodeStateMachineTransition_lrw3w"), "falling", "running", SubResource("AnimationNodeStateMachineTransition_7738o"), "jump_up", "death", SubResource("AnimationNodeStateMachineTransition_8vegk"), "falling", "death", SubResource("AnimationNodeStateMachineTransition_uuwxt"), "Start", "spawn", SubResource("AnimationNodeStateMachineTransition_rvtg3"), "spawn", "idle", SubResource("AnimationNodeStateMachineTransition_nk36t"), "idle", "push_idle", SubResource("AnimationNodeStateMachineTransition_161mx"), "push_idle", "idle", SubResource("AnimationNodeStateMachineTransition_j623x"), "push_idle", "running", SubResource("AnimationNodeStateMachineTransition_6khhf"), "running", "push_idle", SubResource("AnimationNodeStateMachineTransition_p873e"), "running", "push", SubResource("AnimationNodeStateMachineTransition_tkdu6"), "push", "running", SubResource("AnimationNodeStateMachineTransition_mij0l"), "push", "idle", SubResource("AnimationNodeStateMachineTransition_80xir"), "idle", "push", SubResource("AnimationNodeStateMachineTransition_fi7ce"), "push", "push_idle", SubResource("AnimationNodeStateMachineTransition_sc43u"), "push_idle", "push", SubResource("AnimationNodeStateMachineTransition_vu5px")]
-graph_offset = Vector2(-233, 46)
+graph_offset = Vector2(-121, -122)
 
 [sub_resource type="Animation" id="Animation_asms3"]
 length = 0.001
@@ -448,15 +448,19 @@ shape = SubResource("RectangleShape2D_rcgoc")
 [node name="JumpSound" type="AudioStreamPlayer" parent="." unique_id=1142838321]
 stream = ExtResource("4_ffwgi")
 volume_db = -15.0
+bus = &"Sound"
 
 [node name="WalkSound" type="AudioStreamPlayer" parent="." unique_id=1251847100]
 stream = ExtResource("5_x6qf3")
+bus = &"Sound"
 
 [node name="DeathSound" type="AudioStreamPlayer" parent="." unique_id=1452813879]
 stream = ExtResource("6_u1o1e")
+bus = &"Sound"
 
 [node name="SpawnSound" type="AudioStreamPlayer" parent="." unique_id=1576010426]
 stream = ExtResource("7_1wjt0")
+bus = &"Sound"
 
 [connection signal="body_entered" from="InteractTrigger" to="." method="_on_interact_trigger_body_entered"]
 [connection signal="body_exited" from="InteractTrigger" to="." method="_on_interact_trigger_body_exited"]

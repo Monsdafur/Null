@@ -1,0 +1,36 @@
+[gd_resource type="Theme" format=3 uid="uid://dscqsy1iy1uws"]
+
+[ext_resource type="FontFile" uid="uid://b3s13b2b4efka" path="res://assets/fonts/Tiny5-Regular.ttf" id="1_866e4"]
+[ext_resource type="Texture2D" uid="uid://plg50qbkx2tn" path="res://assets/textures/ui.png" id="3_8v3gn"]
+[ext_resource type="Texture2D" uid="uid://gg37lhl5qcus" path="res://assets/textures/atlas/pressed_button.tres" id="3_yrqhp"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wu84c"]
+texture = ExtResource("3_yrqhp")
+texture_margin_left = 16.0
+texture_margin_right = 16.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_866e4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0l16o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ug2i4"]
+atlas = ExtResource("3_8v3gn")
+region = Rect2(80, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0l16o"]
+atlas = ExtResource("3_8v3gn")
+region = Rect2(40, 0, 40, 40)
+
+[resource]
+Button/colors/font_color = Color(0.7490196, 0.37254903, 0.30980393, 1)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/icon_focus_color = Color(0.7490196, 0.37254903, 0.30980393, 1)
+Button/fonts/font = ExtResource("1_866e4")
+Button/styles/focus = SubResource("StyleBoxTexture_wu84c")
+Button/styles/normal = SubResource("StyleBoxEmpty_866e4")
+Button/styles/pressed = SubResource("StyleBoxEmpty_0l16o")
+CheckButton/colors/button_checked_color = Color(0.7490196, 0.37254903, 0.30980393, 1)
+CheckButton/colors/button_unchecked_color = Color(0.7490196, 0.37254903, 0.30980393, 1)
+CheckButton/fonts/font = ExtResource("1_866e4")
+CheckButton/icons/checked = SubResource("AtlasTexture_ug2i4")
+CheckButton/icons/unchecked = SubResource("AtlasTexture_0l16o")

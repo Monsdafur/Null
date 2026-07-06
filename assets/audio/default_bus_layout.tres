@@ -1,9 +1,0 @@
-[gd_resource type="AudioBusLayout" format=3 uid="uid://cn4p5nc77um8t"]
-
-[sub_resource type="AudioEffectLimiter" id="AudioEffectLimiter_li86c"]
-resource_name = "Limiter"
-
-[resource]
-bus/0/volume_db = -5.5043726
-bus/0/effect/0/effect = SubResource("AudioEffectLimiter_li86c")
-bus/0/effect/0/enabled = true

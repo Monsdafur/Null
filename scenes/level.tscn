@@ -16,6 +16,20 @@ script = ExtResource("2_mx8sn")
 
 [node name="ActivationSound" type="AudioStreamPlayer" parent="AudioStreamManager" unique_id=835033592]
 stream = ExtResource("2_w8frs")
+bus = &"Sound"
 
 [node name="LaserSound" type="AudioStreamPlayer" parent="AudioStreamManager" unique_id=1620359443]
 stream = ExtResource("3_mx8sn")
+bus = &"Sound"
+
+[node name="BlueprintOverlay" type="ColorRect" parent="." unique_id=918993674]
+z_index = 6
+z_as_relative = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 960.0
+offset_bottom = 512.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.247059, 0.121569, 0.247059, 0)

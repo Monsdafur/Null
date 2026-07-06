@@ -4,8 +4,8 @@ extends Node2D
 @export var max_level: int = 1
 
 @onready var player_spawn_timer: Timer = $PlayerSpawnDelay
-@onready var transition_filter: CanvasLayer = $TransitionFilter
-@onready var overlay: ColorRect = $BluePrintOverlay
+@onready var transition_filter: CanvasLayer = $"../TransitionFilter"
+@onready var overlay: ColorRect = $BlueprintOverlay
 @onready var audio_stream_manager: Node2D = $AudioStreamManager
 
 var tileset: Resource = preload("res://assets/tileset/tileset.tres")

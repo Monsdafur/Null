@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://cu28yf3qfxyny"]
+
+[ext_resource type="FontFile" uid="uid://b3s13b2b4efka" path="res://assets/fonts/Tiny5-Regular.ttf" id="1_rawol"]
+
+[resource]
+font = ExtResource("1_rawol")
+font_color = Color(0.7490196, 0.37254903, 0.30980393, 1)
