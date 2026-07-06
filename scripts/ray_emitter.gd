@@ -40,7 +40,7 @@ func _ready() -> void:
 				direction_vector = Vector2(0.0, 1.0)
 				segment.play("vertical")
 				hit.play("down");
-	ray.target_position = ray.position + direction_vector * 30.0 * 16.0
+	ray.target_position = ray.position + direction_vector * 60.0 * 16.0
 
 func _process(_delta: float) -> void:
 	if not ray.is_colliding():

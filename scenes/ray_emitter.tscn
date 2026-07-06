@@ -52,13 +52,13 @@ region = Rect2(32, 512, 16, 16)
 atlas = ExtResource("2_ayaff")
 region = Rect2(48, 512, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_jeqr3"]
-atlas = ExtResource("2_ayaff")
-region = Rect2(96, 512, 16, 16)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_47pnb"]
 atlas = ExtResource("2_ayaff")
 region = Rect2(112, 512, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ayaff"]
+atlas = ExtResource("2_ayaff")
+region = Rect2(96, 512, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bsgwm"]
 atlas = ExtResource("2_ayaff")
@@ -91,10 +91,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_jeqr3")
+"texture": SubResource("AtlasTexture_47pnb")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_47pnb")
+"texture": SubResource("AtlasTexture_ayaff")
 }],
 "loop": 1,
 "name": &"left",
@@ -127,6 +127,7 @@ animations = [{
 script = ExtResource("1_keesk")
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=1177161895]
+target_position = Vector2(0, 120)
 
 [node name="Trigger" type="Area2D" parent="." unique_id=1500528019]
 z_index = 10
@@ -141,6 +142,6 @@ animation = &"vertical"
 
 [node name="Hit" type="AnimatedSprite2D" parent="." unique_id=906314703]
 sprite_frames = SubResource("SpriteFrames_2ubrw")
-animation = &"up"
+animation = &"left"
 
 [connection signal="body_entered" from="Trigger" to="." method="_on_trigger_body_entered"]
