@@ -26,6 +26,7 @@ region_rect = Rect2(0, 480, 16, 16)
 one_shot = true
 
 [node name="DeathTrigger" type="Area2D" parent="." unique_id=804859114]
+collision_mask = 17
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeathTrigger" unique_id=769036611]
 position = Vector2(0, 0.5)
@@ -38,4 +39,5 @@ texture = ExtResource("2_ks2v0")
 region_enabled = true
 region_rect = Rect2(48, 672, 16, 16)
 
+[connection signal="area_entered" from="DeathTrigger" to="." method="_on_death_trigger_area_entered"]
 [connection signal="body_entered" from="DeathTrigger" to="." method="_on_death_trigger_body_entered"]

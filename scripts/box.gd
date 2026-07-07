@@ -44,3 +44,18 @@ func _on_death_trigger_body_entered(body: Node2D) -> void:
 		death_timer.start()
 		await death_timer.timeout
 		queue_free()
+
+func _on_death_trigger_area_entered(area: Area2D) -> void:
+	if area.get_groups().count("spike") > 0:
+		dead = true
+		hit_sound.play()
+		sprite.visible = false
+		collision_shape.queue_free()
+		set_physics_process(false)
+		for i in range(7):
+			var fragment: Node2D = ins_fragment.instantiate()
+			fragment.frag_index = i
+			add_child(fragment)
+		death_timer.start()
+		await death_timer.timeout
+		queue_free()
