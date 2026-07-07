@@ -21,7 +21,7 @@ var ins_emitter: Resource = preload("res://scenes/ray_emitter.tscn")
 var ins_box: Resource = preload("res://scenes/box.tscn")
 var ins_instruction: Resource = preload("res://scenes/instruction.tscn")
 
-var map_data: Dictionary
+var levels: Dictionary
 var map_width: int
 var has_entrance: bool = false
 var blueprint_enable: bool = false
@@ -52,8 +52,11 @@ func load_map_data() -> void:
 	var string_data = file.get_as_text()
 	file.close()
 	
-	map_data = JSON.parse_string(string_data)
-	
+	var map_data: Dictionary = JSON.parse_string(string_data)
+	for i in range(map_data["levels"].size()):
+		var level: Dictionary = map_data["levels"][i]
+		levels[level["identifier"]] = level
+
 func load_pipe(entity_position: Vector2, entity: Dictionary, order: int, inverted: bool) -> void:
 	var properties: Array = entity["fieldInstances"]
 	var type: String = String(properties[0]["__value"])
@@ -263,9 +266,10 @@ func load_layer(layer: Dictionary, order: int) -> void:
 
 func load_level() -> void:
 	audio_stream_manager.stop_all()
-	var order: int = map_data["levels"][global.current_level]["layerInstances"].size()
+	var level: Dictionary = levels["Level_%d" % global.current_level]
+	var order: int = level["layerInstances"].size()
 	
-	for layer: Dictionary in map_data["levels"][global.current_level]["layerInstances"]:
+	for layer: Dictionary in level["layerInstances"]:
 		if layer["__type"] == "Entities":
 			load_entities(layer, order)
 		else:

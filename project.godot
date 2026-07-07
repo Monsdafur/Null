@@ -41,6 +41,8 @@ project/assembly_name="Platformer"
 [global_group]
 
 spike=""
+player=""
+"game complete trigger"=""
 
 [input]
 

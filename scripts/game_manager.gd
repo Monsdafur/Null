@@ -5,6 +5,7 @@ extends Node2D
 @onready var resume_button: Button = $PauseMenu/Resume
 @onready var menu_button: Button = $PauseMenu/MainMenu
 @onready var transition_filter: CanvasLayer = $TransitionFilter
+@onready var game_complete_timer: Timer = $GameCompleteTimer
 
 func pause() -> void:
 	get_tree().paused = true
@@ -28,14 +29,25 @@ func _on_resume_button_up() -> void:
 	resume()
 
 func _on_main_menu_button_up() -> void:
-	transition_filter.reverse = true;
-	transition_filter.timer.start();
+	transition_filter.reverse = true
+	transition_filter.timer.start()
 	await transition_filter.timer.timeout
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 func _on_quit_button_up() -> void:
-	transition_filter.reverse = true;
-	transition_filter.timer.start();
+	transition_filter.reverse = true
+	transition_filter.timer.start()
 	await transition_filter.timer.timeout
 	global.quit_game()
+
+func _on_game_complete_trigger_body_entered(body: Node2D) -> void:
+	if body.get_groups().count("player") > 0:
+		body.queue_free()
+		game_complete_timer.start()
+		await game_complete_timer.timeout
+		transition_filter.reverse = true
+		transition_filter.timer.start();
+		await transition_filter.timer.timeout
+		get_tree().change_scene_to_file("res://scenes/end_scene.tscn")
+		global.current_level = 0

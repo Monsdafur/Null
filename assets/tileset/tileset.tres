@@ -330,6 +330,8 @@ texture = ExtResource("1_qwp6l")
 7:37/0 = 0
 7:35/0 = 0
 7:39/0 = 0
+7:29/0 = 0
+8:29/0 = 0
 
 [resource]
 physics_layer_0/collision_layer = 1

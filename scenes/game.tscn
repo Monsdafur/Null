@@ -6,6 +6,9 @@
 [ext_resource type="Theme" uid="uid://dscqsy1iy1uws" path="res://assets/themes/custom_theme.tres" id="4_p57ef"]
 [ext_resource type="LabelSettings" uid="uid://cu28yf3qfxyny" path="res://assets/fonts/default_label_setting.tres" id="5_u5sy4"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x1jhq"]
+size = Vector2(189, 540.5)
+
 [node name="Game" type="Node2D" unique_id=1875942122]
 script = ExtResource("1_lnu2h")
 
@@ -20,7 +23,7 @@ zoom = Vector2(2, 2)
 [node name="Level" parent="." unique_id=183393350 instance=ExtResource("3_rgulm")]
 process_mode = 1
 position = Vector2(-480, -256)
-max_level = 10
+max_level = 11
 
 [node name="PauseMenu" type="Control" parent="." unique_id=663006360]
 process_mode = 2
@@ -105,6 +108,18 @@ text = "QUIT"
 label_settings = ExtResource("5_u5sy4")
 horizontal_alignment = 1
 
+[node name="GameCompleteTrigger" type="Area2D" parent="." unique_id=1212693403 groups=["game complete trigger"]]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameCompleteTrigger" unique_id=1988580759]
+position = Vector2(594.5, 0.25)
+shape = SubResource("RectangleShape2D_x1jhq")
+
+[node name="GameCompleteTimer" type="Timer" parent="." unique_id=860027160]
+wait_time = 3.0
+one_shot = true
+
 [connection signal="button_up" from="PauseMenu/Resume" to="." method="_on_resume_button_up"]
 [connection signal="button_up" from="PauseMenu/MainMenu" to="." method="_on_main_menu_button_up"]
 [connection signal="button_up" from="PauseMenu/Quit" to="." method="_on_quit_button_up"]
+[connection signal="body_entered" from="GameCompleteTrigger" to="." method="_on_game_complete_trigger_body_entered"]
