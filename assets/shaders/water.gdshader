@@ -8,7 +8,7 @@ void fragment() {
 	float offset = texture(noise, SCREEN_UV + vec2(t)).r;
 	offset = (offset - 0.5) * 2.0;
 	vec4 tex_color = texture(TEXTURE, UV);
-	vec4 background_color = texture(screen, SCREEN_UV + vec2(-offset, offset) * 0.005);
+	vec4 background_color = texture(screen, SCREEN_UV + vec2(-offset, offset) * 0.0075);
 	if (tex_color.a < 0.1) {
 		discard;
 	}
