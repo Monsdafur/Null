@@ -90,6 +90,7 @@ horizontal_alignment = 1
 
 [node name="TransitionFilter" parent="." unique_id=947655323 instance=ExtResource("1_hecwe")]
 layer = 2
+visible = false
 
 [node name="Timer" type="Timer" parent="." unique_id=1191161300]
 one_shot = true
