@@ -335,4 +335,5 @@ texture = ExtResource("1_qwp6l")
 
 [resource]
 physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_wgc32")

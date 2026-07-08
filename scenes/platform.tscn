@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dh3di18a2hqpp" path="res://assets/textures/tileset.png" id="2_nlgqw"]
 
 [node name="Platform" type="AnimatableBody2D" unique_id=1314057710]
+collision_mask = 0
 script = ExtResource("1_pbqvv")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=358338279]

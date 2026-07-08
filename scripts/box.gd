@@ -19,7 +19,7 @@ func _physics_process(delta: float) -> void:
 	
 	if not is_on_floor():
 		velocity += get_gravity() * global.gravity_scale * delta
-	elif (not on_floor_last_frame) and frame_count > 10:
+	elif (not on_floor_last_frame) and frame_count > 30:
 		hit_sound.play()
 		
 	if not is_pushing or not is_on_floor():
@@ -27,7 +27,7 @@ func _physics_process(delta: float) -> void:
 	
 	on_floor_last_frame = is_on_floor()
 	move_and_slide()
-	if frame_count <= 10:
+	if frame_count <= 30:
 		frame_count += 1
 
 func _on_death_trigger_body_entered(body: Node2D) -> void:
