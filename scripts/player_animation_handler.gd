@@ -45,7 +45,7 @@ func _process(_delta: float) -> void:
 		else:
 			sprite.flip_h = false
 	sprite.offset.x = -1.0 if sprite.flip_h else 0.0
-	sprite.offset.y = 3.0 if sprite.flip_v else 0.0
+	sprite.offset.y = 4.0 if sprite.flip_v else 0.0
 
 func _on_global_game_over() -> void:
 	if dead:

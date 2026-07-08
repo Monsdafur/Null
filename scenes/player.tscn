@@ -9,7 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://xqnax3rga56a" path="res://assets/audio/spawn.wav" id="7_1wjt0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8bfk5"]
-size = Vector2(9, 13)
+size = Vector2(9, 12)
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4t6nj"]
 animation = &"death"
@@ -390,7 +390,7 @@ _data = {
 size = Vector2(2, 9.25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rcgoc"]
-size = Vector2(7, 12)
+size = Vector2(7, 10)
 
 [node name="Player" type="CharacterBody2D" unique_id=1589274936 groups=["player"]]
 z_index = 1
@@ -402,7 +402,7 @@ jump_velocity = -280.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=373575936]
 z_index = 1
-position = Vector2(-0.5, 1.5)
+position = Vector2(-0.5, 2)
 shape = SubResource("RectangleShape2D_8bfk5")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=2141730790]
@@ -422,6 +422,7 @@ active = false
 libraries/ = SubResource("AnimationLibrary_tt03w")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=426367053]
+z_index = 2
 texture_filter = 1
 texture_repeat = 1
 texture = ExtResource("1_aaqob")
@@ -436,6 +437,7 @@ collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractTrigger" unique_id=1055445322]
+position = Vector2(0, 0.625)
 shape = SubResource("RectangleShape2D_0wh1x")
 debug_color = Color(1, 0, 0, 0.419608)
 
@@ -444,6 +446,7 @@ position = Vector2(-0.5, 1)
 collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CrushTrigger" unique_id=1091479281]
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_rcgoc")
 
 [node name="JumpSound" type="AudioStreamPlayer" parent="." unique_id=1142838321]
