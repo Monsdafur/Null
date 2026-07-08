@@ -9,7 +9,7 @@ extends CharacterBody2D
 var box_fragments = preload("res://assets/textures/box_fragments.png")
 var ins_fragment = preload("res://scenes/fragment.tscn")
 
-var is_holding: bool = false
+var is_pushing: bool = false
 var dead: bool = false
 var on_floor_last_frame: bool = true
 var frame_count: int = 0
@@ -22,7 +22,7 @@ func _physics_process(delta: float) -> void:
 	elif (not on_floor_last_frame) and frame_count > 10:
 		hit_sound.play()
 		
-	if not is_holding or not is_on_floor():
+	if not is_pushing or not is_on_floor():
 		velocity.x = 0.0
 	
 	on_floor_last_frame = is_on_floor()

@@ -9,7 +9,7 @@ size = Vector2(14, 14)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d2r3w"]
 size = Vector2(12, 12)
 
-[node name="Box" type="CharacterBody2D" unique_id=1553863577]
+[node name="Box" type="CharacterBody2D" unique_id=1553863577 groups=["box"]]
 collision_layer = 37
 collision_mask = 33
 script = ExtResource("1_3cpo1")

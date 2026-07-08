@@ -1,6 +1,6 @@
 extends AnimationTree
 
-@onready var player_movement: CharacterBody2D = $".."
+@onready var player: CharacterBody2D = $".."
 @onready var interact_trigger: Area2D = $"../InteractTrigger"
 @onready var sprite: Sprite2D = $"../Sprite2D"
 @onready var state_machine: AnimationNodeStateMachinePlayback = get("parameters/playback")
@@ -21,26 +21,26 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	sprite.flip_v = global.gravity_scale == -1
 	
-	if not player_movement.is_on_floor():
-		if player_movement.velocity.y * global.gravity_scale < 0.0:
+	if not player.is_on_floor():
+		if player.velocity.y * global.gravity_scale < 0.0:
 			state_machine.travel("jump_up")
 		else:
 			state_machine.travel("falling")
 	else:
-		if player_movement.is_pushing:
-			if player_movement.direction == 0:
+		if player.is_pushing:
+			if player.direction == 0:
 				state_machine.travel("push_idle")
 			else:
 				state_machine.travel("push")
 		else:
-			if player_movement.direction == 0:
+			if player.direction == 0:
 				state_machine.travel("idle")
 			else:
 				state_machine.travel("running")
 	
-	if not player_movement.direction == 0:
-		interact_trigger.position.x = 5.0 if player_movement.direction == 1 else -6.0
-		if player_movement.direction == -1:
+	if not player.direction == 0:
+		interact_trigger.position.x = 5.0 if player.direction == 1 else -6.0
+		if player.direction == -1:
 			sprite.flip_h = true
 		else:
 			sprite.flip_h = false
@@ -55,7 +55,7 @@ func _on_global_game_over() -> void:
 	set_process(false)
 	death_sound.play()
 	state_machine.travel("death")
-	player_movement.set_physics_process(false)
+	player.set_physics_process(false)
 	while state_machine.get_current_node() != "death":
 		await get_tree().process_frame
 	await animation_finished
@@ -70,7 +70,7 @@ func _on_global_level_cleared() -> void:
 	set_process(false)
 	spawn_sound.play()
 	state_machine.travel("death")
-	player_movement.set_physics_process(false)
+	player.set_physics_process(false)
 	while state_machine.get_current_node() != "death":
 		await get_tree().process_frame
 	await animation_finished

@@ -31,12 +31,12 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, speed)
 
 	if is_on_floor() and is_holding and Input.is_action_pressed("interact"):
-			is_pushing = true
-			box.velocity.x = direction * speed * 0.2
-			box.is_holding = true
+		is_pushing = true
+		box.velocity.x = direction * speed * 0.2
+		box.is_pushing = true
 	else:
 		if is_holding:
-			box.is_holding = false
+			box.is_pushing = false
 		is_pushing = false
 
 	move_and_slide()
@@ -50,7 +50,7 @@ func _on_interact_trigger_body_entered(body: Node2D) -> void:
 
 func _on_interact_trigger_body_exited(_body: Node2D) -> void:
 	is_holding = false
-	box.is_holding = false
+	box.is_pushing = false
 
 func _on_crush_trigger_body_entered(_body: Node2D) -> void:
 	global.game_over.emit()
