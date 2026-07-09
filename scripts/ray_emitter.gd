@@ -62,5 +62,6 @@ func _process(_delta: float) -> void:
 		trigger.get_node("CollisionShape2D").shape.size = Vector2(length - 0.5, 2.0)
 		segment.scale = Vector2(length / 16.0, 1.0)
 
-func _on_trigger_body_entered(_body: Node2D) -> void:
-	global.game_over.emit()
+func _on_trigger_body_entered(body: Node2D) -> void:
+	if body.get_groups().count("player") > 0:
+		global.game_over.emit()

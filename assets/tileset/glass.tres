@@ -33,5 +33,5 @@ texture = ExtResource("1_lcpf3")
 
 [resource]
 physics_layer_0/collision_layer = 32
-physics_layer_0/collision_mask = 32
+physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_aqdnb")

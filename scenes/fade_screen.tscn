@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://c8nnwb2ff7fi2"]
+
+[sub_resource type="Animation" id="Animation_wu84c"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.24705882, 0.12156863, 0.24705882, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_8ln24"]
+resource_name = "fade in"
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 0.5),
+"update": 0,
+"values": [Color(0.24705882, 0.12156863, 0.24705882, 0), Color(0.24705882, 0.12156863, 0.24705882, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_rtw2f"]
+resource_name = "fade out"
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 0.5),
+"update": 0,
+"values": [Color(0.24705882, 0.12156863, 0.24705882, 1), Color(0.24705882, 0.12156863, 0.24705882, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_17not"]
+resource_name = "none"
+loop_mode = 1
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.24705882, 0.12156863, 0.24705882, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rtw2f"]
+_data = {
+&"RESET": SubResource("Animation_wu84c"),
+&"fade in": SubResource("Animation_8ln24"),
+&"fade out": SubResource("Animation_rtw2f"),
+&"none": SubResource("Animation_17not")
+}
+
+[node name="FadeScreen" type="ColorRect" unique_id=1603686575]
+z_index = 1
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = 540.0
+color = Color(0.24705882, 0.12156863, 0.24705882, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=629728592]
+libraries/ = SubResource("AnimationLibrary_rtw2f")

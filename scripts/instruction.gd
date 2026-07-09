@@ -6,6 +6,9 @@ extends Node2D
 
 @onready var sprite: Sprite2D = $Sprite2D
 
+func _ready() -> void:
+	sprite.self_modulate.a = 0.0
+
 func _process(_delta: float) -> void:
 	if player == null:
 		return

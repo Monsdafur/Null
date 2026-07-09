@@ -3,7 +3,7 @@ extends Node2D
 @export var max_level: int = 1
 
 @onready var player_spawn_timer: Timer = $PlayerSpawnDelay
-@onready var transition_filter: CanvasLayer = $"../TransitionFilter"
+@onready var fade_effect: AnimationPlayer = $"../FadeScreen/AnimationPlayer"
 @onready var overlay: ColorRect = $BlueprintOverlay
 @onready var audio_stream_manager: Node2D = $AudioStreamManager
 
@@ -335,23 +335,20 @@ func reload(instant: bool = false) -> void:
 	if not instant:
 		player_spawn_timer.start()
 		await player_spawn_timer.timeout
-	transition_filter.reverse = true;
-	transition_filter.timer.start();
-	await transition_filter.timer.timeout
+	fade_effect.play("fade in")
+	await fade_effect.animation_finished
 	clear_level()
 	load_level()
-	transition_filter.reverse = false;
-	transition_filter.timer.start();
-	await transition_filter.timer.timeout
+	fade_effect.play("fade out")
+	await fade_effect.animation_finished
 	spawn_player()
 	reloading = false
 
 func _ready() -> void:
 	load_map_data()
 	load_level()
-	transition_filter.reverse = false;
-	transition_filter.timer.start();
-	await transition_filter.timer.timeout
+	fade_effect.play("fade out")
+	await fade_effect.animation_finished
 	spawn_player()
 
 func _process(delta: float) -> void:

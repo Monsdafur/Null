@@ -1,5 +1,6 @@
 extends Node
 
+var main_menu_fade: bool = false
 var gravity_scale: int = 1
 var sound_on: bool = true
 var music_on: bool = true
@@ -15,6 +16,7 @@ func set_gravity_scale(scale: int) -> void:
 	gravity_scale = scale
 
 func _ready() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	var path: String = String("user://game.json")
 	var game_data: Dictionary
 	if not FileAccess.file_exists(path):

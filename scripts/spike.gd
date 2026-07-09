@@ -45,8 +45,9 @@ func _ready() -> void:
 	area.process_mode = Node.PROCESS_MODE_INHERIT if activated else Node.PROCESS_MODE_DISABLED
 	animated_sprite.play(idle_animation if activated else dormant_animation)
 	
-func _on_area_2d_body_entered(_body: Node2D) -> void:
-	global.game_over.emit()
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.get_groups().count("player") > 0:
+		global.game_over.emit()
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if state == State.ACTIVATING:

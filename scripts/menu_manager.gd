@@ -9,41 +9,43 @@ enum ButtonType {
 
 @onready var start_button: Button = $MenuManager/StartButton
 @onready var quit_button: Button = $MenuManager/QuitButton
-@onready var transition_filter: CanvasLayer = $TransitionFilter
+@onready var fade_effect: AnimationPlayer = $FadeScreen/AnimationPlayer
+@onready var title_fade: AnimationPlayer = $Title/AnimationPlayer
 
 var button_type: ButtonType = ButtonType.NONE
 var chosen: bool = false
 
 func _ready() -> void:
 	start_button.grab_focus.call_deferred()
-	transition_filter.timer.timeout.connect(_on_transition_timeout)
-	transition_filter.timer.start()
+	fade_effect.animation_finished.connect(_on_transition_timeout)
+	fade_effect.play("fade out")
+	if global.main_menu_fade:
+		pass
 
 func _on_start_button_button_up() -> void:
 	if chosen:
 		return
 	chosen = true
 	button_type = ButtonType.START
-	transition_filter.reverse = true
-	transition_filter.timer.start()
+	title_fade.play("fade out")
+	fade_effect.play("fade in")
 
 func _on_options_button_button_up() -> void:
 	if chosen:
 		return
 	chosen = true
 	button_type = ButtonType.OPTIONS
-	transition_filter.reverse = true
-	transition_filter.timer.start()
+	fade_effect.play("fade in")
 
 func _on_quit_button_button_up() -> void:
 	if chosen:
 		return
 	chosen = true
 	button_type = ButtonType.QUIT
-	transition_filter.reverse = true
-	transition_filter.timer.start()
+	title_fade.play("fade out")
+	fade_effect.play("fade in")
 
-func _on_transition_timeout() -> void:
+func _on_transition_timeout(_anim_name: StringName) -> void:
 	match button_type:
 		ButtonType.START:
 			get_tree().change_scene_to_file("res://scenes/game.tscn")

@@ -15,9 +15,11 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Null"
-config/version="v1.0.0"
+config/version="1.0.0"
 run/main_scene="uid://bfnwxcb2cli5w"
 config/features=PackedStringArray("4.7", "Forward Plus")
+boot_splash/bg_color=Color(0.24705882, 0.12156863, 0.24705882, 1)
+boot_splash/image="uid://c1q1j0hiswf5g"
 config/icon="uid://pt2wk26f2ykg"
 
 [audio]
@@ -30,8 +32,10 @@ global="*res://scripts/global.gd"
 
 [display]
 
-window/size/viewport_width=1600
-window/size/viewport_height=800
+window/size/viewport_width=960
+window/size/viewport_height=512
+window/size/mode=3
+window/stretch/scale_mode="integer"
 
 [dotnet]
 

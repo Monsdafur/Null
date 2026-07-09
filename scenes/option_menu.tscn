@@ -1,16 +1,16 @@
 [gd_scene format=3 uid="uid://bcms5kjx5glyf"]
 
-[ext_resource type="PackedScene" uid="uid://datl2eavfw6cg" path="res://scenes/transition_filter.tscn" id="1_hecwe"]
 [ext_resource type="Script" uid="uid://87fdyeicseah" path="res://scripts/option_menu_manager.gd" id="1_hrgik"]
 [ext_resource type="PackedScene" uid="uid://bvbup21eppmup" path="res://scenes/checkbox.tscn" id="2_1xj3o"]
 [ext_resource type="Theme" uid="uid://dscqsy1iy1uws" path="res://assets/themes/custom_theme.tres" id="3_2mid4"]
 [ext_resource type="LabelSettings" uid="uid://cu28yf3qfxyny" path="res://assets/fonts/default_label_setting.tres" id="4_x6sq6"]
+[ext_resource type="PackedScene" uid="uid://c8nnwb2ff7fi2" path="res://scenes/fade_screen.tscn" id="6_laan2"]
+[ext_resource type="Texture2D" uid="uid://c1q1j0hiswf5g" path="res://assets/textures/main_menu.png" id="6_x6sq6"]
 
 [node name="OptionMenu" type="Node2D" unique_id=285746746]
 script = ExtResource("1_hrgik")
 
 [node name="MenuManager" type="Control" parent="." unique_id=685009594]
-z_index = 10
 layout_mode = 3
 anchors_preset = 0
 offset_left = -960.0
@@ -33,7 +33,7 @@ grow_horizontal = 2
 grow_vertical = 2
 label_text = "SOUND"
 
-[node name="MusicCheckbox" parent="MenuManager" unique_id=2135113854 instance=ExtResource("2_1xj3o")]
+[node name="WaterEffectCheckbox" parent="MenuManager" unique_id=1368015728 instance=ExtResource("2_1xj3o")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -47,30 +47,14 @@ offset_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
 keep_pressed_outside = true
-label_text = "MUSIC"
-
-[node name="WaterEffectCheckbox" parent="MenuManager" unique_id=1368015728 instance=ExtResource("2_1xj3o")]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -96.0
-offset_top = 80.0
-offset_right = 96.0
-offset_bottom = 120.0
-grow_horizontal = 2
-grow_vertical = 2
-keep_pressed_outside = true
 label_text = "WATER EFFECT"
 
 [node name="Return" type="Button" parent="MenuManager" unique_id=925072773]
 layout_mode = 0
 offset_left = 864.0
-offset_top = 660.0
+offset_top = 620.0
 offset_right = 1056.0
-offset_bottom = 700.0
+offset_bottom = 660.0
 theme = ExtResource("3_2mid4")
 
 [node name="Label" type="Label" parent="MenuManager/Return" unique_id=1581124201]
@@ -88,13 +72,18 @@ horizontal_alignment = 1
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1824259585]
 
-[node name="TransitionFilter" parent="." unique_id=947655323 instance=ExtResource("1_hecwe")]
-layer = 2
-
 [node name="Timer" type="Timer" parent="." unique_id=1191161300]
 one_shot = true
 
+[node name="Title" type="Sprite2D" parent="." unique_id=2060921341]
+z_index = 2
+texture_filter = 1
+texture_repeat = 1
+scale = Vector2(2, 2)
+texture = ExtResource("6_x6sq6")
+
+[node name="FadeScreen" parent="." unique_id=1603686575 instance=ExtResource("6_laan2")]
+
 [connection signal="toggle" from="MenuManager/SoundCheckbox" to="." method="_on_sound_checkbox_toggle"]
-[connection signal="toggle" from="MenuManager/MusicCheckbox" to="." method="_on_music_checkbox_toggle"]
 [connection signal="toggle" from="MenuManager/WaterEffectCheckbox" to="." method="_on_effect_checkbox_toggle"]
 [connection signal="button_up" from="MenuManager/Return" to="." method="_on_return_button_up"]

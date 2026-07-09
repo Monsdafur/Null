@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dtffb133s0j4q"]
 
 [ext_resource type="Script" uid="uid://c41eiju4r2qnl" path="res://scripts/game_manager.gd" id="1_lnu2h"]
-[ext_resource type="PackedScene" uid="uid://datl2eavfw6cg" path="res://scenes/transition_filter.tscn" id="2_nfqtn"]
 [ext_resource type="PackedScene" uid="uid://bdts5utildbrv" path="res://scenes/level.tscn" id="3_rgulm"]
 [ext_resource type="Theme" uid="uid://dscqsy1iy1uws" path="res://assets/themes/custom_theme.tres" id="4_p57ef"]
+[ext_resource type="PackedScene" uid="uid://c8nnwb2ff7fi2" path="res://scenes/fade_screen.tscn" id="5_iywne"]
 [ext_resource type="LabelSettings" uid="uid://cu28yf3qfxyny" path="res://assets/fonts/default_label_setting.tres" id="5_u5sy4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x1jhq"]
@@ -11,9 +11,6 @@ size = Vector2(189, 540.5)
 
 [node name="Game" type="Node2D" unique_id=1875942122]
 script = ExtResource("1_lnu2h")
-
-[node name="TransitionFilter" parent="." unique_id=282744756 instance=ExtResource("2_nfqtn")]
-process_mode = 3
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=29601861]
 process_mode = 3
@@ -118,6 +115,10 @@ shape = SubResource("RectangleShape2D_x1jhq")
 [node name="GameCompleteTimer" type="Timer" parent="." unique_id=860027160]
 wait_time = 3.0
 one_shot = true
+
+[node name="FadeScreen" parent="." unique_id=1603686575 instance=ExtResource("5_iywne")]
+process_mode = 3
+z_index = 20
 
 [connection signal="button_up" from="PauseMenu/Resume" to="." method="_on_resume_button_up"]
 [connection signal="button_up" from="PauseMenu/MainMenu" to="." method="_on_main_menu_button_up"]

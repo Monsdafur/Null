@@ -4,8 +4,8 @@ extends Node2D
 @onready var level: Node2D = $Level
 @onready var resume_button: Button = $PauseMenu/Resume
 @onready var menu_button: Button = $PauseMenu/MainMenu
-@onready var transition_filter: CanvasLayer = $TransitionFilter
 @onready var game_complete_timer: Timer = $GameCompleteTimer
+@onready var fade_effect: AnimationPlayer = $FadeScreen/AnimationPlayer
 
 func pause() -> void:
 	get_tree().paused = true
@@ -29,16 +29,15 @@ func _on_resume_button_up() -> void:
 	resume()
 
 func _on_main_menu_button_up() -> void:
-	transition_filter.reverse = true
-	transition_filter.timer.start()
-	await transition_filter.timer.timeout
+	fade_effect.play("fade in")
+	await fade_effect.animation_finished
 	get_tree().paused = false
+	global.main_menu_fade = true
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 func _on_quit_button_up() -> void:
-	transition_filter.reverse = true
-	transition_filter.timer.start()
-	await transition_filter.timer.timeout
+	fade_effect.play("fade in")
+	await fade_effect.animation_finished
 	global.quit_game()
 
 func _on_game_complete_trigger_body_entered(body: Node2D) -> void:
@@ -46,8 +45,7 @@ func _on_game_complete_trigger_body_entered(body: Node2D) -> void:
 		body.queue_free()
 		game_complete_timer.start()
 		await game_complete_timer.timeout
-		transition_filter.reverse = true
-		transition_filter.timer.start();
-		await transition_filter.timer.timeout
+		fade_effect.play("fade in")
+		await fade_effect.animation_finished
 		get_tree().change_scene_to_file("res://scenes/end_scene.tscn")
 		global.current_level = 0

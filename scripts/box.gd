@@ -18,7 +18,7 @@ func _physics_process(delta: float) -> void:
 	up_direction = Vector2(0, -1) if global.gravity_scale == 1 else Vector2(0, 1)
 	
 	if not is_on_floor():
-		velocity += get_gravity() * global.gravity_scale * delta
+		velocity += get_gravity() * global.gravity_scale * delta * 1.5
 	elif (not on_floor_last_frame) and frame_count > 30:
 		hit_sound.play()
 		
@@ -31,7 +31,7 @@ func _physics_process(delta: float) -> void:
 		frame_count += 1
 
 func _on_death_trigger_body_entered(body: Node2D) -> void:
-	if body != get_node(".") and !dead:
+	if body != get_node(".") and !dead and body.get_groups().count("player") == 0:
 		dead = true
 		hit_sound.play()
 		sprite.visible = false
