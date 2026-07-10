@@ -18,7 +18,7 @@ func _physics_process(delta: float) -> void:
 	up_direction = Vector2(0, -1) if global.gravity_scale == 1 else Vector2(0, 1)
 	
 	if not is_on_floor():
-		velocity += get_gravity() * global.gravity_scale * delta * 1.5
+		velocity += get_gravity() * global.gravity_scale * delta
 	elif (not on_floor_last_frame) and frame_count > 30:
 		hit_sound.play()
 		

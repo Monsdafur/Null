@@ -11,7 +11,7 @@ var bodies: int = 0
 
 func _ready() -> void:
 	sprite.region_rect = Rect2i(16, 480, 16, 16) if not reversed else Rect2i(32, 480, 16, 16)
-	shape.position = Vector2(0.0, 7.0) if not reversed else Vector2(0.0, -7.0)
+	shape.position = Vector2(0.0, 6.0) if not reversed else Vector2(0.0, -6.0)
 
 func _on_body_entered(_body: Node2D) -> void:
 	if not ((reversed and global.gravity_scale == -1) or (not reversed and global.gravity_scale == 1)):
@@ -25,6 +25,8 @@ func _on_body_entered(_body: Node2D) -> void:
 			function.call()
 
 func _on_body_exited(_body: Node2D) -> void:
+	if not ((reversed and global.gravity_scale == -1) or (not reversed and global.gravity_scale == 1)):
+		return
 	bodies -= 1
 	if bodies > 0:
 		return

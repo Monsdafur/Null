@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://bhvcxht6e1ga1"]
+
+[ext_resource type="Texture2D" uid="uid://bpvvt7w532nnh" path="res://assets/textures/loading_screen.png" id="1_cmasr"]
+[ext_resource type="Script" uid="uid://kt52bdnl37vn" path="res://scripts/flashcreen.gd" id="1_ocj4k"]
+
+[node name="Flashcreen" type="Node2D" unique_id=357452846]
+script = ExtResource("1_ocj4k")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1381194901]
+scale = Vector2(2, 2)
+texture = ExtResource("1_cmasr")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=383531289]
+
+[node name="Control" type="Control" parent="." unique_id=1603820198]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = 540.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="Control" unique_id=685026109]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -208.0
+offset_right = 200.0
+offset_bottom = -176.0
+grow_horizontal = 2
+grow_vertical = 0
