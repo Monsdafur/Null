@@ -14,9 +14,9 @@ func _ready() -> void:
 	shape.position = Vector2(0.0, 6.0) if not reversed else Vector2(0.0, -6.0)
 
 func _on_body_entered(_body: Node2D) -> void:
+	bodies += 1
 	if not ((reversed and global.gravity_scale == -1) or (not reversed and global.gravity_scale == 1)):
 		return
-	bodies += 1
 	if bodies > 1:
 		return
 	sprite.visible = false
@@ -25,8 +25,6 @@ func _on_body_entered(_body: Node2D) -> void:
 			function.call()
 
 func _on_body_exited(_body: Node2D) -> void:
-	if not ((reversed and global.gravity_scale == -1) or (not reversed and global.gravity_scale == 1)):
-		return
 	bodies -= 1
 	if bodies > 0:
 		return
