@@ -32,6 +32,7 @@ func deactivate() -> void:
 	if state == State.DORMANT:
 		return
 	state = State.RETRACT
+	area.process_mode = Node.PROCESS_MODE_DISABLED
 	activate_sound.play()
 	animated_sprite.play(retract_animation)
 
@@ -54,6 +55,5 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		state = State.IDLING
 		animated_sprite.play(idle_animation)
 	elif state == State.RETRACT:
-		area.process_mode = Node.PROCESS_MODE_DISABLED
 		state = State.RETRACT
 		animated_sprite.play(dormant_animation)

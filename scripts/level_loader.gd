@@ -69,7 +69,7 @@ func load_pipe(entity_position: Vector2, entity: Dictionary, order: int, inverte
 			player_spawn_point = entity_position
 			player_spawn_point += Vector2(1.0, -5.0) if not inverted else Vector2(1.0, 5.0)
 			has_entrance = true
-			global.gravity_scale = 1 if not inverted else -1
+			global.set_gravity_scale(1 if not inverted else -1)
 			pipe.type = Pipe.Type.ENTRANCE
 		"Exit":
 			pipe.type = Pipe.Type.EXIT

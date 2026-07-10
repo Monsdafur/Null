@@ -11,9 +11,12 @@ var current_level: int = 0
 signal game_over
 @warning_ignore("unused_signal")
 signal level_cleared
+@warning_ignore("unused_signal")
+signal gravity_reversed
 
 func set_gravity_scale(scale: int) -> void:
 	gravity_scale = scale
+	gravity_reversed.emit()
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)

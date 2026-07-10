@@ -10,13 +10,26 @@ extends Area2D
 var bodies: int = 0
 
 func _ready() -> void:
+	global.gravity_reversed.connect(_on_gravity_reversed)
 	sprite.region_rect = Rect2i(16, 480, 16, 16) if not reversed else Rect2i(32, 480, 16, 16)
 	shape.position = Vector2(0.0, 6.0) if not reversed else Vector2(0.0, -6.0)
-
+	
+func update_state() -> void:
+	var is_active: bool = (reversed and global.gravity_scale == -1) or (not reversed and global.gravity_scale == 1)
+	if is_active:
+		set_deferred("process_mode", Node.PROCESS_MODE_INHERIT)
+		shape.set_deferred("disabled", false)
+	else:
+		set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
+		shape.set_deferred("disabled", true)
+		sprite.visible = true
+		bodies = 0
+		for function: Callable in deactivation_functions:
+			if function.is_valid():
+				function.call()
+		
 func _on_body_entered(_body: Node2D) -> void:
 	bodies += 1
-	if not ((reversed and global.gravity_scale == -1) or (not reversed and global.gravity_scale == 1)):
-		return
 	if bodies > 1:
 		return
 	sprite.visible = false
@@ -25,6 +38,8 @@ func _on_body_entered(_body: Node2D) -> void:
 			function.call()
 
 func _on_body_exited(_body: Node2D) -> void:
+	if bodies == 0:
+		return
 	bodies -= 1
 	if bodies > 0:
 		return
@@ -32,3 +47,6 @@ func _on_body_exited(_body: Node2D) -> void:
 	for function: Callable in deactivation_functions:
 		if function.is_valid():
 			function.call()
+
+func _on_gravity_reversed() -> void:
+	update_state()
