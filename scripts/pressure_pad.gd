@@ -13,6 +13,7 @@ func _ready() -> void:
 	global.gravity_reversed.connect(_on_gravity_reversed)
 	sprite.region_rect = Rect2i(16, 480, 16, 16) if not reversed else Rect2i(32, 480, 16, 16)
 	shape.position = Vector2(0.0, 6.0) if not reversed else Vector2(0.0, -6.0)
+	update_state()
 	
 func update_state() -> void:
 	var is_active: bool = (reversed and global.gravity_scale == -1) or (not reversed and global.gravity_scale == 1)
