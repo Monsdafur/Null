@@ -220,13 +220,13 @@ func load_entities(entity_layer: Dictionary, order: int) -> void:
 	for entity_position: Vector2 in pad_inv_data:
 		load_pressure_pad(entity_position, pad_inv_data[entity_position], order, true)
 
-func load_emitter(cell_position: Vector2i, direction: RayEmitter.Direction) -> void:
+func load_emitter(cell_position: Vector2i, direction: RayEmitter.Direction, order: int) -> void:
 	var emitter_position: Vector2 = Vector2(cell_position) * 16.0 + Vector2(8.0, 8.0)
 	var emitter: Node2D = ins_emitter.instantiate()
 	emitter.direction = direction
 	add_child(emitter)
 	emitter.position = emitter_position
-	emitter.z_index = 2
+	emitter.z_index = order
 	emitters.append(emitter)
 	
 func load_layer(layer: Dictionary, order: int) -> void:
@@ -249,13 +249,13 @@ func load_layer(layer: Dictionary, order: int) -> void:
 		
 		if atlas_coord.y == 6:
 			if atlas_coord.x == 0:
-				load_emitter(cell_position, RayEmitter.Direction.RIGHT)
+				load_emitter(cell_position, RayEmitter.Direction.RIGHT, order - 3)
 			elif atlas_coord.x == 1:
-				load_emitter(cell_position, RayEmitter.Direction.DOWN)
+				load_emitter(cell_position, RayEmitter.Direction.DOWN, order - 3)
 			elif atlas_coord.x == 2:
-				load_emitter(cell_position, RayEmitter.Direction.UP)
+				load_emitter(cell_position, RayEmitter.Direction.UP, order - 3)
 			elif atlas_coord.x == 3:
-				load_emitter(cell_position, RayEmitter.Direction.LEFT)
+				load_emitter(cell_position, RayEmitter.Direction.LEFT, order - 3)
 				
 	add_child(tilemap_layer)
 	tilemap_layers[layer["__identifier"]] = tilemap_layer

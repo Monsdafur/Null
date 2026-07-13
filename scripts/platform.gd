@@ -12,18 +12,21 @@ enum Type {
 @export var speed: float
 @export var type: Type = Type.NONE
 
-
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var bounce_sound: AudioStreamPlayer = $"../AudioStreamManager/ActivationSound"
 
 var reversed: bool = false
 var active: bool = false
+var distance: float
+var destination: Vector2
 
 func set_reverse(value: bool) -> void:
 	if not (reversed == value):
 		active = true
 	reversed = value
+	destination = p0 if not reversed else p1
+	distance = position.distance_to(destination)
 
 func _ready() -> void:
 	position = p0
@@ -38,8 +41,10 @@ func _ready() -> void:
 	collision_shape.shape = shape
 
 func _physics_process(delta: float) -> void:
-	var dst = p0 if not reversed else p1
-	position = position.move_toward(dst, speed * delta)
-	if active and position.distance_squared_to(dst) < 0.025:
-		bounce_sound.play()
+	if not active:
+		return
+	position = position.move_toward(destination, speed * delta)
+	if position.distance_squared_to(destination) < 0.025:
+		if distance > 16.0:
+			bounce_sound.play()
 		active = false

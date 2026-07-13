@@ -8,12 +8,14 @@ extends Area2D
 @onready var shape: CollisionShape2D = $CollisionShape2D
 
 var bodies: int = 0
+var started: bool = false
 
 func _ready() -> void:
 	global.gravity_reversed.connect(_on_gravity_reversed)
 	sprite.region_rect = Rect2i(16, 480, 16, 16) if not reversed else Rect2i(32, 480, 16, 16)
 	shape.position = Vector2(0.0, 6.0) if not reversed else Vector2(0.0, -6.0)
 	update_state()
+	started = true
 	
 func update_state() -> void:
 	var is_active: bool = (reversed and global.gravity_scale == -1) or (not reversed and global.gravity_scale == 1)
@@ -25,6 +27,8 @@ func update_state() -> void:
 		shape.set_deferred("disabled", true)
 		sprite.visible = true
 		bodies = 0
+		if not started:
+			return
 		for function: Callable in deactivation_functions:
 			if function.is_valid():
 				function.call()
