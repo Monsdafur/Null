@@ -27,11 +27,10 @@ func update_state() -> void:
 		shape.set_deferred("disabled", true)
 		sprite.visible = true
 		bodies = 0
-		if not started:
-			return
-		for function: Callable in deactivation_functions:
-			if function.is_valid():
-				function.call()
+		if started:
+			for function: Callable in deactivation_functions:
+				if function.is_valid():
+					function.call()
 		
 func _on_body_entered(_body: Node2D) -> void:
 	bodies += 1
@@ -54,4 +53,5 @@ func _on_body_exited(_body: Node2D) -> void:
 			function.call()
 
 func _on_gravity_reversed() -> void:
-	update_state()
+	if global.in_game:
+		update_state()

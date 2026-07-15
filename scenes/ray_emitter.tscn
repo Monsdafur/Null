@@ -125,7 +125,6 @@ animations = [{
 
 [node name="RayEmitter" type="Node2D" unique_id=672980636]
 script = ExtResource("1_keesk")
-width = 3.0
 
 [node name="RayA" type="RayCast2D" parent="." unique_id=1177161895]
 target_position = Vector2(0, 120)

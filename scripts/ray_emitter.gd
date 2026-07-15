@@ -9,7 +9,7 @@ enum Direction {
 }
 
 @export var direction: Direction = Direction.RIGHT
-@export var width: float = 2.0
+@export var width: float = 4.0
 @export var length: float = 60.0
 
 @onready var trigger: Area2D = $Trigger
@@ -72,10 +72,10 @@ func _physics_process(_delta: float) -> void:
 	segment.position = offset
 	hit.position = offset * 2.0 - (direction_vector * 8.0)
 	if direction == Direction.UP or direction == Direction.DOWN:
-		trigger.get_node("CollisionShape2D").shape.size = Vector2(width, ray_length - 0.5)
+		trigger.get_node("CollisionShape2D").shape.size = Vector2(width, max(0, ray_length - 2.0))
 		segment.scale = Vector2(1.0, ray_length / 16.0)
 	elif direction == Direction.RIGHT or direction == Direction.LEFT:
-		trigger.get_node("CollisionShape2D").shape.size = Vector2(ray_length - 0.5, width)
+		trigger.get_node("CollisionShape2D").shape.size = Vector2(max(0, ray_length - 2.0), width)
 		segment.scale = Vector2(ray_length / 16.0, 1.0)
 
 func _on_trigger_body_entered(body: Node2D) -> void:

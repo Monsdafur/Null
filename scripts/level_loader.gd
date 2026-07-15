@@ -265,6 +265,7 @@ func load_layer(layer: Dictionary, order: int) -> void:
 		tilemap_layers["DangerousWater"].material = water_effect
 
 func load_level() -> void:
+	print("LEVEL LOADING")
 	audio_stream_manager.stop_all()
 	var level: Dictionary = levels["Level_%d" % global.current_level]
 	var order: int = level["layerInstances"].size()
@@ -292,6 +293,7 @@ func spawn_player() -> void:
 		instruction.sprite.visible = true
 
 func clear_level() -> void:
+	print("LEVEL CLEARING")
 	player.queue_free()
 	for key: String in tilemap_layers:
 		tilemap_layers[key].queue_free()
@@ -332,6 +334,7 @@ func reload(instant: bool = false) -> void:
 	if reloading:
 		return
 	reloading = true
+	global.in_game = false
 	if not instant:
 		player_spawn_timer.start()
 		await player_spawn_timer.timeout
@@ -343,6 +346,7 @@ func reload(instant: bool = false) -> void:
 	await fade_effect.animation_finished
 	spawn_player()
 	reloading = false
+	global.in_game = true
 
 func _ready() -> void:
 	load_map_data()
@@ -350,6 +354,7 @@ func _ready() -> void:
 	fade_effect.play("fade out")
 	await fade_effect.animation_finished
 	spawn_player()
+	global.in_game = true
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("reload"):

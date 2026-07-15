@@ -6,6 +6,7 @@ var sound_on: bool = true
 var music_on: bool = true
 var effect_on: bool = true
 var current_level: int = 0
+var in_game: bool = false
 
 @warning_ignore("unused_signal")
 signal game_over
