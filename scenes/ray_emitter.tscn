@@ -125,8 +125,13 @@ animations = [{
 
 [node name="RayEmitter" type="Node2D" unique_id=672980636]
 script = ExtResource("1_keesk")
+width = 3.0
 
-[node name="RayCast2D" type="RayCast2D" parent="." unique_id=1177161895]
+[node name="RayA" type="RayCast2D" parent="." unique_id=1177161895]
+target_position = Vector2(0, 120)
+collision_mask = 5
+
+[node name="RayB" type="RayCast2D" parent="." unique_id=439498811]
 target_position = Vector2(0, 120)
 collision_mask = 5
 
