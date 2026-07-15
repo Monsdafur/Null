@@ -1,7 +1,6 @@
 extends Node2D
 
 @onready var pause_menu: Control = $PauseMenu
-@onready var level: Node2D = $Level
 @onready var resume_button: Button = $PauseMenu/Resume
 @onready var menu_button: Button = $PauseMenu/MainMenu
 @onready var game_complete_timer: Timer = $GameCompleteTimer
