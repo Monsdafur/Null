@@ -23,7 +23,7 @@ func _physics_process(delta: float) -> void:
 		hit_sound.play()
 		
 	if not is_pushing or not is_on_floor():
-		velocity.x = 0.0
+		velocity.x = 0.0 
 	
 	on_floor_last_frame = is_on_floor()
 	move_and_slide()

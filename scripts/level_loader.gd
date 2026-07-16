@@ -369,7 +369,7 @@ func _process(delta: float) -> void:
 	for pipe: Node2D in pipes:
 		pipe.highlight.self_modulate.a = overlay.color.a / 0.5
 
-	if Input.is_action_just_pressed("next") and not reloading:
+	if Input.is_action_just_pressed("next") and not reloading and false:
 		global.current_level += 1
 		if global.current_level > max_level:
 			global.current_level = 0
