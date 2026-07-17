@@ -262,7 +262,7 @@ func load_layer(layer: Dictionary, order: int) -> void:
 	tilemap_layer.z_index = order
 	tilemap_layer.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	
-	if (layer["__identifier"] == "DangerousWater" or layer["__identifier"] == "Water") and global.effect_on:
+	if (layer["__identifier"] == "DangerousWater") and global.effect_on:
 		tilemap_layer.material = water_effect
 		tilemap_layer.material.set_shader_parameter("enabled", true)
 
