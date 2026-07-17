@@ -26,6 +26,7 @@ texture_filter = 1
 max_level = 12
 
 [node name="FinalScreen" type="ColorRect" parent="." unique_id=356445186]
+texture_filter = 1
 material = SubResource("ShaderMaterial_x1jhq")
 offset_right = 1920.0
 offset_bottom = 1080.0
