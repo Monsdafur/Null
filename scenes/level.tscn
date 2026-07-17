@@ -4,12 +4,21 @@
 [ext_resource type="Script" uid="uid://ct7i3usleggsm" path="res://scripts/audio_stream_manager.gd" id="2_mx8sn"]
 [ext_resource type="AudioStream" uid="uid://bq6n4nbtkqnqw" path="res://assets/audio/activation.wav" id="2_w8frs"]
 [ext_resource type="AudioStream" uid="uid://6m176ocg170e" path="res://assets/audio/laser.wav" id="3_mx8sn"]
+[ext_resource type="Texture2D" uid="uid://dh3di18a2hqpp" path="res://assets/textures/tileset.png" id="5_ppgk2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2r41h"]
+size = Vector2(960, 100)
 
 [node name="Level" type="Node2D" unique_id=234484379]
 script = ExtResource("1_fl2ss")
 
 [node name="PlayerSpawnDelay" type="Timer" parent="." unique_id=1843706006]
 one_shot = true
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1152026161]
+process_mode = 3
+z_index = 100
+position = Vector2(480, 270)
 
 [node name="AudioStreamManager" type="Node2D" parent="." unique_id=710451383]
 script = ExtResource("2_mx8sn")
@@ -33,3 +42,18 @@ offset_bottom = 512.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.247059, 0.121569, 0.247059, 0)
+
+[node name="GameCompleteTrigger" type="Area2D" parent="." unique_id=402271417 groups=["game complete trigger"]]
+position = Vector2(960, 640)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameCompleteTrigger" unique_id=2120766359]
+shape = SubResource("RectangleShape2D_2r41h")
+
+[node name="PauseInstruction" type="Sprite2D" parent="." unique_id=1756061037]
+z_index = 10
+texture_filter = 1
+position = Vector2(26, 11)
+texture = ExtResource("5_ppgk2")
+region_enabled = true
+region_rect = Rect2(16, 704, 48, 16)

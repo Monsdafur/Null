@@ -6,7 +6,8 @@ extends Node2D
 @onready var game_complete_timer: Timer = $GameCompleteTimer
 @onready var fade_effect: AnimationPlayer = $FadeScreen/AnimationPlayer
 @onready var click_sound: AudioStreamPlayer = $ClickSound
-@onready var pause_instruction: Sprite2D = $PauseInstruction
+@onready var pause_instruction: Sprite2D = $RawPass/Level/PauseInstruction
+@onready var game_complete_trigger: Area2D = $RawPass/Level/GameCompleteTrigger
 
 var option_chosen: bool = false
 
@@ -25,6 +26,7 @@ func _ready() -> void:
 	var sound_bus: int = AudioServer.get_bus_index("Sound")
 	AudioServer.set_bus_mute(sound_bus, not global.sound_on)
 	resume()
+	game_complete_trigger.body_entered.connect(_on_game_complete_trigger_body_entered)
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):

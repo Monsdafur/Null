@@ -3,7 +3,7 @@ extends Node2D
 @export var max_level: int = 1
 
 @onready var player_spawn_timer: Timer = $PlayerSpawnDelay
-@onready var fade_effect: AnimationPlayer = $"../FadeScreen/AnimationPlayer"
+@onready var fade_effect: AnimationPlayer = $"../../FadeScreen/AnimationPlayer"
 @onready var overlay: ColorRect = $BlueprintOverlay
 @onready var audio_stream_manager: Node2D = $AudioStreamManager
 
