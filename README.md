@@ -10,16 +10,26 @@ Deep within an underground sewage network built by a lost civilization, a sweet 
 **[Play the game on itch.io](https://monsdafur.itch.io/null)**
 
 ## Core Mechanics
-*   **Boxes** Players can interact with boxes by pushing them to elevate themselves or activate switches.\
-<img src="images/box.gif" width=512>
-*   **Spike traps:** Constant obstacle, kill player upon overlapping but can also be deactivated via connected switches.\
-<img src="images/spike.gif" width=512>
-*   **Moving tiles:** Moveable tiles can act as an elevator, a door, or a transport pad. Players can activate them via connected switches.\
-<img src="images/platform.gif" width=512>
-*   **Gravity reversal:** Inverting gravity instantly change how a puzzle is solve and cause confusion.\
-<img src="images/gravity.gif" width=512>
-*   **Raycast Plasma Emitters:** Continuous plasma beams can be countered with moving a platform to the spot or use boxes to block their path.\
-<img src="images/plasma.gif" width=512>
+
+* **Boxes:** Players can push boxes to reach higher platforms or activate switches.
+
+  <img src="images/box.gif" width="512">
+
+* **Spike Traps:** Deadly obstacles that kill the player on contact. They can also be deactivated via connected switches.
+
+  <img src="images/spike.gif" width="512">
+
+* **Moving Tiles:** Moving platforms can function as elevators, doors, or transport platforms. Players can activate them using connected switches.
+
+  <img src="images/platform.gif" width="512">
+
+* **Gravity Reversal:** Instantly inverts gravity, fundamentally changing how puzzles are approached and solved.
+
+  <img src="images/gravity.gif" width="512">
+
+* **Raycast Plasma Emitters:** Continuous plasma beams that can be blocked by moving platforms into their path or by using boxes as shields.
+
+  <img src="images/plasma.gif" width="512">
 
 ## Screenshots
 ![Screenshot](images/screenshot0.png)
