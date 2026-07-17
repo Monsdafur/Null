@@ -7,8 +7,8 @@ uniform bool enabled;
 void fragment() {
 	vec4 tex_color = texture(TEXTURE, UV);
 	if (enabled) {
-		float t = TIME * 0.012;
-		float offset = texture(noise, SCREEN_UV + vec2(t)).r;
+		float t = TIME * 0.02;
+		float offset = texture(noise, (SCREEN_UV * vec2(1.0, 4.0)) + vec2(t)).r;
 		offset = (offset - 0.5) * 2.0;
 		vec4 background_color = texture(screen, SCREEN_UV + vec2(-offset, offset) * 0.005);
 		float brightness = dot(background_color.rgb, vec3(0.2126, 0.7152, 0.0722));
