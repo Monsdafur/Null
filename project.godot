@@ -29,6 +29,7 @@ buses/default_bus_layout="uid://cn4p5nc77um8t"
 [autoload]
 
 global="*res://scripts/global.gd"
+ost="*uid://diiduxde2s0d8"
 
 [display]
 

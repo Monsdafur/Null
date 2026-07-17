@@ -8,9 +8,6 @@ extends Node2D
 @onready var click_sound: AudioStreamPlayer = $ClickSound
 @onready var pause_instruction: Sprite2D = $RawPass/Level/PauseInstruction
 @onready var game_complete_trigger: Area2D = $RawPass/Level/GameCompleteTrigger
-@onready var sound_checkbox: Button = $PauseMenu/SoundCheckbox
-@onready var water_effect_checkbox: Button = $PauseMenu/WaterEffectCheckbox
-@onready var color_limit_checkbox: Button = $PauseMenu/ColorLimitCheckbox
 
 var option_chosen: bool = false
 
@@ -28,9 +25,6 @@ func resume() -> void:
 func _ready() -> void:
 	var sound_bus: int = AudioServer.get_bus_index("Sound")
 	AudioServer.set_bus_mute(sound_bus, not global.sound_on)
-	sound_checkbox.set_state(global.sound_on)
-	water_effect_checkbox.set_state(global.effect_on)
-	color_limit_checkbox.set_state(global.color_limit)
 	resume()
 	game_complete_trigger.body_entered.connect(_on_game_complete_trigger_body_entered)
 
@@ -44,21 +38,6 @@ func _on_resume_button_up() -> void:
 	click_sound.play()
 	resume()
 	
-func _on_sound_checkbox_toggle(state: bool) -> void:
-	if not option_chosen:
-		click_sound.play()
-		global.sound_on = state
-
-func _on_effect_checkbox_toggle(state: bool) -> void:
-	if not option_chosen:
-		click_sound.play()
-		global.effect_on = state
-		
-func _on_color_limit_toggle(state: bool) -> void:
-	if not option_chosen:
-		click_sound.play()
-		global.color_limit = state
-
 func _on_main_menu_button_up() -> void:
 	if option_chosen:
 		return

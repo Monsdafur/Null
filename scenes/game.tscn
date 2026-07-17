@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://c8nnwb2ff7fi2" path="res://scenes/fade_screen.tscn" id="5_iywne"]
 [ext_resource type="LabelSettings" uid="uid://cu28yf3qfxyny" path="res://assets/fonts/default_label_setting.tres" id="5_u5sy4"]
 [ext_resource type="AudioStream" uid="uid://c0fwgystqejhn" path="res://assets/audio/click.wav" id="6_p57ef"]
-[ext_resource type="PackedScene" uid="uid://bvbup21eppmup" path="res://scenes/checkbox.tscn" id="7_0tnpc"]
 [ext_resource type="Script" uid="uid://su424lmo0wgi" path="res://scripts/post_processing_pass.gd" id="9_vtaks"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_x1jhq"]
@@ -71,59 +70,12 @@ text = "RESUME"
 label_settings = ExtResource("5_u5sy4")
 horizontal_alignment = 1
 
-[node name="SoundCheckbox" parent="PauseMenu" unique_id=91721255 instance=ExtResource("7_0tnpc")]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -96.0
-offset_top = 40.0
-offset_right = 96.0
-offset_bottom = 80.0
-grow_horizontal = 2
-grow_vertical = 2
-label_text = "SOUND"
-
-[node name="WaterEffectCheckbox" parent="PauseMenu" unique_id=1042503481 instance=ExtResource("7_0tnpc")]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -96.0
-offset_top = 80.0
-offset_right = 96.0
-offset_bottom = 120.0
-grow_horizontal = 2
-grow_vertical = 2
-keep_pressed_outside = true
-label_text = "WATER EFFECT"
-
-[node name="ColorLimitCheckbox" parent="PauseMenu" unique_id=703187937 instance=ExtResource("7_0tnpc")]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -96.0
-offset_top = 120.0
-offset_right = 96.0
-offset_bottom = 160.0
-grow_horizontal = 2
-grow_vertical = 2
-keep_pressed_outside = true
-label_text = "COLOR LIMIT"
-
 [node name="MainMenu" type="Button" parent="PauseMenu" unique_id=581602484]
 layout_mode = 0
 offset_left = 864.0
-offset_top = 700.0
+offset_top = 580.0
 offset_right = 1056.0
-offset_bottom = 740.0
+offset_bottom = 620.0
 theme = ExtResource("4_p57ef")
 
 [node name="Label" type="Label" parent="PauseMenu/MainMenu" unique_id=786496228]
@@ -142,9 +94,9 @@ horizontal_alignment = 1
 [node name="Quit" type="Button" parent="PauseMenu" unique_id=232930798]
 layout_mode = 0
 offset_left = 864.0
-offset_top = 740.0
+offset_top = 620.0
 offset_right = 1056.0
-offset_bottom = 780.0
+offset_bottom = 660.0
 theme = ExtResource("4_p57ef")
 
 [node name="Label" type="Label" parent="PauseMenu/Quit" unique_id=844397719]
@@ -176,8 +128,5 @@ offset_bottom = 1080.0
 stream = ExtResource("6_p57ef")
 
 [connection signal="button_up" from="PauseMenu/Resume" to="." method="_on_resume_button_up"]
-[connection signal="toggle" from="PauseMenu/SoundCheckbox" to="." method="_on_sound_checkbox_toggle"]
-[connection signal="toggle" from="PauseMenu/WaterEffectCheckbox" to="." method="_on_effect_checkbox_toggle"]
-[connection signal="toggle" from="PauseMenu/ColorLimitCheckbox" to="." method="_on_color_limit_toggle"]
 [connection signal="button_up" from="PauseMenu/MainMenu" to="." method="_on_main_menu_button_up"]
 [connection signal="button_up" from="PauseMenu/Quit" to="." method="_on_quit_button_up"]
