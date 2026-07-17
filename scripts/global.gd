@@ -5,6 +5,7 @@ var gravity_scale: int = 1
 var sound_on: bool = true
 var music_on: bool = true
 var effect_on: bool = true
+var color_limit: bool = true
 var current_level: int = 0
 var in_game: bool = false
 
@@ -19,6 +20,12 @@ func set_gravity_scale(scale: int) -> void:
 	gravity_scale = scale
 	gravity_reversed.emit()
 
+func load_setting(settings: Dictionary, setting_name: String) -> bool:
+	if settings.has(setting_name):
+		return bool(settings[setting_name])
+	else:
+		return true
+
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	var path: String = String("user://game.json")
@@ -30,9 +37,10 @@ func _ready() -> void:
 		var string_data: String = file.get_as_text()
 		file.close()
 		game_data = JSON.parse_string(string_data)
-		sound_on = bool(game_data["settings"]["sound on"])
-		music_on = bool(game_data["settings"]["music on"])
-		effect_on = bool(game_data["settings"]["effect on"])
+		sound_on = load_setting(game_data["settings"], "sound on")
+		music_on = load_setting(game_data["settings"], "music on")
+		effect_on = load_setting(game_data["settings"], "effect on")
+		color_limit = load_setting(game_data["settings"], "color limit")
 		current_level = int(game_data["progress"]["current level"])
 
 func save_progress() -> void:
@@ -46,6 +54,7 @@ func save_progress() -> void:
 	game_data["settings"]["sound on"] = sound_on
 	game_data["settings"]["music on"] = music_on
 	game_data["settings"]["effect on"] = effect_on
+	game_data["settings"]["color limit"] = color_limit
 	game_data["progress"]["current level"] = current_level
 	string_data = JSON.stringify(game_data, "\t")
 	file.store_string(string_data)

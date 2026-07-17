@@ -5,9 +5,9 @@ uniform int stride;
 uniform bool enabled;
 
 vec3 correct_color(vec3 c) {
-	ivec3 ci = ivec3(floor(c * 256.0));
-	ci -= ci % stride;
-	return vec3(ci) / 256.0;
+	ivec3 ci = ivec3(floor(c * 255.0));
+	ci += (stride - (ci % stride)) - 1;
+	return vec3(ci) / 255.0;
 } 
 
 void fragment() {

@@ -261,7 +261,7 @@ func load_layer(layer: Dictionary, order: int) -> void:
 	tilemap_layers[layer["__identifier"]] = tilemap_layer
 	tilemap_layer.z_index = order
 	
-	if layer["__identifier"] == "DangerousWater" and global.effect_on:
+	if layer["__identifier"] == "DangerousWater":
 		tilemap_layers["DangerousWater"].material = water_effect
 
 func load_level() -> void:
@@ -374,6 +374,10 @@ func _process(delta: float) -> void:
 		if global.current_level > max_level:
 			global.current_level = 0
 		reload(true)
+		
+	if tilemap_layers.has("DangerousWater"):
+		if not tilemap_layers["DangerousWater"].material == null:
+			tilemap_layers["DangerousWater"].material.set_shader_parameter("enabled", global.effect_on)
 
 func _on_player_death() ->void:
 	reload()

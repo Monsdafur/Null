@@ -50,12 +50,28 @@ grow_vertical = 2
 keep_pressed_outside = true
 label_text = "WATER EFFECT"
 
+[node name="ColorLimitCheckbox" parent="MenuManager" unique_id=1390233376 instance=ExtResource("2_1xj3o")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = 80.0
+offset_right = 96.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+keep_pressed_outside = true
+label_text = "COLOR LIMIT"
+
 [node name="Return" type="Button" parent="MenuManager" unique_id=925072773]
 layout_mode = 0
 offset_left = 864.0
-offset_top = 620.0
+offset_top = 660.0
 offset_right = 1056.0
-offset_bottom = 660.0
+offset_bottom = 700.0
 theme = ExtResource("3_2mid4")
 
 [node name="Label" type="Label" parent="MenuManager/Return" unique_id=1581124201]
@@ -90,4 +106,5 @@ stream = ExtResource("7_laan2")
 
 [connection signal="toggle" from="MenuManager/SoundCheckbox" to="." method="_on_sound_checkbox_toggle"]
 [connection signal="toggle" from="MenuManager/WaterEffectCheckbox" to="." method="_on_effect_checkbox_toggle"]
+[connection signal="toggle" from="MenuManager/ColorLimitCheckbox" to="." method="_on_color_limit_toggle"]
 [connection signal="button_up" from="MenuManager/Return" to="." method="_on_return_button_up"]
