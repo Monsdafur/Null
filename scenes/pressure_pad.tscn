@@ -22,5 +22,10 @@ texture = ExtResource("2_ey7vk")
 region_enabled = true
 region_rect = Rect2(16, 480, 16, 16)
 
+[node name="Timer" type="Timer" parent="." unique_id=560529551]
+wait_time = 0.2
+one_shot = true
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

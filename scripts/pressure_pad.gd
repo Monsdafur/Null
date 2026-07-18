@@ -6,6 +6,7 @@ extends Area2D
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var shape: CollisionShape2D = $CollisionShape2D
+@onready var timer: Timer = $Timer
 
 var bodies: int = 0
 var started: bool = false
@@ -41,16 +42,19 @@ func _on_body_entered(_body: Node2D) -> void:
 		if function.is_valid():
 			function.call()
 
+func _on_timer_timeout() -> void:
+	sprite.visible = true
+	for function: Callable in deactivation_functions:
+		if function.is_valid():
+			function.call()
+
 func _on_body_exited(_body: Node2D) -> void:
 	if bodies == 0:
 		return
 	bodies -= 1
 	if bodies > 0:
 		return
-	sprite.visible = true
-	for function: Callable in deactivation_functions:
-		if function.is_valid():
-			function.call()
+	timer.start()
 
 func _on_gravity_reversed() -> void:
 	if global.in_game:
