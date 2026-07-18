@@ -23,6 +23,7 @@ region_enabled = true
 region_rect = Rect2(16, 480, 16, 16)
 
 [node name="Timer" type="Timer" parent="." unique_id=560529551]
+process_mode = 3
 wait_time = 0.2
 one_shot = true
 

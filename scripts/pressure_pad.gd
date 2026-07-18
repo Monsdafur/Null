@@ -24,14 +24,11 @@ func update_state() -> void:
 		set_deferred("process_mode", Node.PROCESS_MODE_INHERIT)
 		shape.set_deferred("disabled", false)
 	else:
-		set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
-		shape.set_deferred("disabled", true)
-		sprite.visible = true
 		bodies = 0
 		if started:
-			for function: Callable in deactivation_functions:
-				if function.is_valid():
-					function.call()
+			timer.start()
+		set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
+		shape.set_deferred("disabled", true)
 		
 func _on_body_entered(_body: Node2D) -> void:
 	bodies += 1
@@ -41,7 +38,7 @@ func _on_body_entered(_body: Node2D) -> void:
 	for function: Callable in activation_functions:
 		if function.is_valid():
 			function.call()
-
+			
 func _on_timer_timeout() -> void:
 	sprite.visible = true
 	for function: Callable in deactivation_functions:
@@ -49,8 +46,6 @@ func _on_timer_timeout() -> void:
 			function.call()
 
 func _on_body_exited(_body: Node2D) -> void:
-	if bodies == 0:
-		return
 	bodies -= 1
 	if bodies > 0:
 		return
