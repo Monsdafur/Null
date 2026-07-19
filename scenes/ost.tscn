@@ -5,7 +5,7 @@
 
 [node name="Ost" type="AudioStreamPlayer" unique_id=142704669]
 stream = ExtResource("1_pngrh")
-volume_db = -10.0
+volume_db = -15.0
 autoplay = true
 bus = &"Music"
 script = ExtResource("2_aelvt")

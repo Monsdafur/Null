@@ -64,6 +64,6 @@ func quit_game() -> void:
 	save_progress()
 	
 	if OS.has_feature("web"):
-		JavaScriptBridge.eval("window.location.href = 'https://monsdafur.itch.io/null';")
+		JavaScriptBridge.eval("window.top.location.href = 'https://monsdafur.itch.io/null';")
 	else:
 		get_tree().quit()
