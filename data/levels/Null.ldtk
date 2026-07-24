@@ -35135,7 +35135,7 @@
 									"id": "V_String",
 									"params": ["Vertical"]
 								}] },
-								{ "__identifier": "Speed", "__type": "Float", "__value": 128, "__tile": null, "defUid": 667, "realEditorValues": [{ "id": "V_Float", "params": [128] }] },
+								{ "__identifier": "Speed", "__type": "Float", "__value": 160, "__tile": null, "defUid": 667, "realEditorValues": [{ "id": "V_Float", "params": [160] }] },
 								{ "__identifier": "P1", "__type": "Point", "__value": { "cx": 40, "cy": 12 }, "__tile": null, "defUid": 668, "realEditorValues": [{
 									"id": "V_String",
 									"params": ["40,12"]
@@ -35165,7 +35165,7 @@
 									"id": "V_String",
 									"params": ["Vertical"]
 								}] },
-								{ "__identifier": "Speed", "__type": "Float", "__value": 128, "__tile": null, "defUid": 667, "realEditorValues": [{ "id": "V_Float", "params": [128] }] },
+								{ "__identifier": "Speed", "__type": "Float", "__value": 160, "__tile": null, "defUid": 667, "realEditorValues": [{ "id": "V_Float", "params": [160] }] },
 								{ "__identifier": "P1", "__type": "Point", "__value": { "cx": 46, "cy": 11 }, "__tile": null, "defUid": 668, "realEditorValues": [{
 									"id": "V_String",
 									"params": ["46,11"]
